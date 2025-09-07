@@ -91,6 +91,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdd127ba8f69b2a47b5d85b863a956c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: Hall
+  sceneName: 
   doorAnimator: {fileID: 0}
   openTriggerName: OpenDoor
