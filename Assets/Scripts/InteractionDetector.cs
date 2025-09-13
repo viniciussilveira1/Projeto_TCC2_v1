@@ -19,7 +19,7 @@ public class InteractionDetector : MonoBehaviour
 
     private void Update()
     {
-        // Se há um NPC em alcance e o player apertar E, abre o diálogo
+        // só abre se o NPC existe, não está resolvido e o player apertar a tecla
         if (currentNPC != null && Input.GetKeyDown(interactKey))
         {
             if (DialogueManager.Instance == null)
@@ -32,24 +32,18 @@ public class InteractionDetector : MonoBehaviour
         }
     }
 
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Interactable"))
         {
-            if (interactionIcon != null)
-                interactionIcon.SetActive(true);
+            var npc = other.GetComponent<NPCDialogue>() ?? other.GetComponentInParent<NPCDialogue>();
 
-            // Tenta pegar o NPCDialogue no objeto que você encostou
-            currentNPC = other.GetComponent<NPCDialogue>();
-            if (currentNPC == null)
+            if (npc != null )
             {
-                // Se o collider está num filho, tenta subir para o pai
-                currentNPC = other.GetComponentInParent<NPCDialogue>();
-            }
-
-            if (currentNPC == null)
-            {
-                Debug.LogWarning("[InteractionDetector] Tag era Interactable, mas não achei NPCDialogue no objeto/parent.");
+                currentNPC = npc;
+                if (interactionIcon != null)
+                    interactionIcon.SetActive(true);
             }
         }
     }

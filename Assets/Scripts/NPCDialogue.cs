@@ -20,8 +20,11 @@ public class NPCDialogue : MonoBehaviour
     public UnityEvent onChooseNeutral;
     public UnityEvent onChooseWrong;
 
-    [Header("Progresso")]
-    public bool countsForProgress = true;   // este NPC conta para o objetivo?
-    [HideInInspector] public bool progressCounted = false; // interno: já contou?
+    public bool IsResolved { get; private set; }
+
+    public void MarkResolved()
+    {
+        IsResolved = true;
+    }
 
 }

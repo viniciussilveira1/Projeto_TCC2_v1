@@ -49,14 +49,12 @@ public class DialogueManager : MonoBehaviour
 
         descriptionText.text = npc.description;
 
-        // Define textos dos botões e listeners
         SetButton(optionButtons[0], npc.optionA, () => OnPick(0));
         SetButton(optionButtons[1], npc.optionB, () => OnPick(1));
         SetButton(optionButtons[2], npc.optionC, () => OnPick(2));
 
         panel.SetActive(true);
 
-        // Pausa o jogo enquanto o diálogo está aberto
         Time.timeScale = 0f;
     }
 
@@ -65,7 +63,6 @@ public class DialogueManager : MonoBehaviour
         if (panel != null) panel.SetActive(false);
         currentNPC = null;
 
-        // Retoma o jogo
         Time.timeScale = 1f;
     }
 
@@ -86,7 +83,11 @@ public class DialogueManager : MonoBehaviour
     {
         if (currentNPC == null) { Hide(); return; }
 
-        // 0 = Certa, 1 = Neutra, 2 = Errada (como já estava)
+        // registra o placar
+        if (SituationCounter.Instance != null)
+            SituationCounter.Instance.RegisterAnswer(index);
+
+        // 0 = Certa, 1 = Neutra, 2 = Errada
         if (index == 0)
         {
             Debug.Log("[Diálogo] CORRETA");
@@ -103,11 +104,12 @@ public class DialogueManager : MonoBehaviour
             currentNPC.onChooseWrong?.Invoke();
         }
 
-        // >>> AQUI: registra progresso uma única vez por NPC
-        if (currentNPC.countsForProgress && SituationCounter.Instance != null)
+        // conta a situação 1x por NPC
+        if (SituationCounter.Instance != null)
             SituationCounter.Instance.Register(currentNPC);
 
-        Hide();
-        }
+        currentNPC.MarkResolved();
 
+        Hide();
+    }
 }

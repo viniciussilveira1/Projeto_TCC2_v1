@@ -1,5 +1,4 @@
 using UnityEngine;
-using TMPro;
 using System;
 
 public class SituationCounter : MonoBehaviour
@@ -8,36 +7,46 @@ public class SituationCounter : MonoBehaviour
 
     [Header("Meta")]
     [SerializeField] private int goal = 10;
-
-    [Header("UI")]
-    [SerializeField] private TMP_Text counterText;
+    public int Goal => goal;
 
     public int Current { get; private set; }
 
-    public event Action<int,int> OnChanged;
+    // Placar
+    public int Correct { get; private set; }
+    public int Neutral { get; private set; }
+    public int Wrong { get; private set; }
+
+    public event Action<int, int> OnChanged;
     public event Action OnGoalReached;
+
+    private bool goalAlreadyFired = false;
 
     private void Awake()
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
-        UpdateUI();
+        DontDestroyOnLoad(gameObject);
+
+        // dispara um OnChanged inicial para a UI sincronizar ao carregar a cena
+        OnChanged?.Invoke(Current, goal);
     }
 
     public void SetGoal(int value)
     {
         goal = Mathf.Max(1, value);
-        UpdateUI();
+        OnChanged?.Invoke(Current, goal);
     }
 
-    /// <summary>
-    /// Registra a situação se ainda não foi contada para esse NPC.
-    /// </summary>
-    public void Register(NPCDialogue npc)
+    // Se você quiser contar resposta + progresso no mesmo clique:
+    public void AddCorrect() { Correct++; Increment(1); }
+    public void AddNeutral() { Neutral++; Increment(1); }
+    public void AddWrong() { Wrong++; Increment(1); }
+
+    public void RegisterAnswer(int index)
     {
-        if (npc == null || npc.progressCounted) return;
-        npc.progressCounted = true;
-        Increment(1);
+        if (index == 0) Correct++;
+        else if (index == 1) Neutral++;
+        else Wrong++;
     }
 
     public void Increment(int amount)
@@ -46,16 +55,29 @@ public class SituationCounter : MonoBehaviour
         Current = Mathf.Clamp(Current + amount, 0, goal);
         if (Current != before)
         {
-            UpdateUI();
             OnChanged?.Invoke(Current, goal);
-            if (Current >= goal)
+
+            if (!goalAlreadyFired && Current >= goal)
+            {
+                goalAlreadyFired = true;
                 OnGoalReached?.Invoke();
+            }
         }
     }
 
-    private void UpdateUI()
+    public void ResetAll()
     {
-        if (counterText != null)
-            counterText.text = $"Situações: {Current} / {goal}";
+        Current = 0;
+        Correct = 0;
+        Neutral = 0;
+        Wrong = 0;
+        goalAlreadyFired = false;
+        OnChanged?.Invoke(Current, goal);
+    }
+
+    public void Register(NPCDialogue npc)
+    {
+        if (npc == null) return;
+        Increment(1);
     }
 }
