@@ -24,7 +24,7 @@ public class InteractionDetector : MonoBehaviour
         {
             if (DialogueManager.Instance == null)
             {
-                Debug.LogError("[InteractionDetector] DialogueManager.Instance é nulo. Coloque um DialogueManager na cena e ligue as referências.");
+                Debug.LogError("[InteractionDetector] DialogueManager.Instance é nulo. Coloque um DialogueManager na cena e ligue as refer  ências.");
                 return;
             }
 
@@ -37,14 +37,14 @@ public class InteractionDetector : MonoBehaviour
     {
         if (other.CompareTag("Interactable"))
         {
-            var npc = other.GetComponent<NPCDialogue>() ?? other.GetComponentInParent<NPCDialogue>();
+            // var npc = other.GetComponent<NPCDialogue>() ?? other.GetComponentInParent<NPCDialogue>();
 
-            if (npc != null )
-            {
-                currentNPC = npc;
+            // if (npc != null )
+            // {
+                // currentNPC = npc;
                 if (interactionIcon != null)
                     interactionIcon.SetActive(true);
-            }
+            // }
         }
     }
 
