@@ -1,0 +1,468 @@
+fileFormatVersion: 2
+guid: 5a98c006824545e42823a8214a5dc785
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -1251509062778223848
+    second: Classroom First Spritesheet 3_0
+  - first:
+      213: 4546357337581744772
+    second: Classroom First Spritesheet 3_1
+  - first:
+      213: -7468618187843567534
+    second: Classroom First Spritesheet 3_2
+  - first:
+      213: 1374832320497075031
+    second: Classroom First Spritesheet 3_3
+  - first:
+      213: 4267878497839303218
+    second: Classroom First Spritesheet 3_4
+  - first:
+      213: 9581811493226079
+    second: Classroom First Spritesheet 3_5
+  - first:
+      213: -7932061594214694023
+    second: Classroom First Spritesheet 3_6
+  - first:
+      213: -4990036772042578278
+    second: Classroom First Spritesheet 3_7
+  - first:
+      213: -4046869531056075771
+    second: Classroom First Spritesheet 3_8
+  - first:
+      213: 5590560097143157986
+    second: Classroom First Spritesheet 3_9
+  - first:
+      213: 5954448334098882657
+    second: Classroom First Spritesheet 3_10
+  - first:
+      213: -6984371895107162408
+    second: Classroom First Spritesheet 3_11
+  - first:
+      213: -8481708734042852759
+    second: Classroom First Spritesheet 3_12
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Classroom First Spritesheet 3_0
+      rect:
+        serializedVersion: 2
+        x: 124
+        y: 237
+        width: 64
+        height: 268
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8130cef532fb1aee0800000000000000
+      internalID: -1251509062778223848
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Classroom First Spritesheet 3_1
+      rect:
+        serializedVersion: 2
+        x: 421
+        y: 385
+        width: 12
+        height: 125
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 482fc8039e7e71f30800000000000000
+      internalID: 4546357337581744772
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Classroom First Spritesheet 3_2
+      rect:
+        serializedVersion: 2
+        x: 347
+        y: 312
+        width: 29
+        height: 58
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 250009e14532a5890800000000000000
+      internalID: -7468618187843567534
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Classroom First Spritesheet 3_3
+      rect:
+        serializedVersion: 2
+        x: 441
+        y: 314
+        width: 29
+        height: 58
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 75344f816b2641310800000000000000
+      internalID: 1374832320497075031
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Classroom First Spritesheet 3_4
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 106
+        width: 41
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 23a4d30b1ec8a3b30800000000000000
+      internalID: 4267878497839303218
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Classroom First Spritesheet 3_5
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 112
+        width: 54
+        height: 68
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f56cb565b9a022000800000000000000
+      internalID: 9581811493226079
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Classroom First Spritesheet 3_6
+      rect:
+        serializedVersion: 2
+        x: 281
+        y: 159
+        width: 29
+        height: 72
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 97380548108abe190800000000000000
+      internalID: -7932061594214694023
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Classroom First Spritesheet 3_7
+      rect:
+        serializedVersion: 2
+        x: 410
+        y: 117
+        width: 42
+        height: 154
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a96e3428ef3dfbab0800000000000000
+      internalID: -4990036772042578278
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Classroom First Spritesheet 3_8
+      rect:
+        serializedVersion: 2
+        x: 21
+        y: 35
+        width: 59
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 50c0d0d4a91a6d7c0800000000000000
+      internalID: -4046869531056075771
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Classroom First Spritesheet 3_9
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 7
+        width: 42
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2e4f0bdc9c8a59d40800000000000000
+      internalID: 5590560097143157986
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Classroom First Spritesheet 3_10
+      rect:
+        serializedVersion: 2
+        x: 232
+        y: 9
+        width: 47
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 160616b363372a250800000000000000
+      internalID: 5954448334098882657
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Classroom First Spritesheet 3_11
+      rect:
+        serializedVersion: 2
+        x: 332
+        y: 26
+        width: 29
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8de6ae424c6821f90800000000000000
+      internalID: -6984371895107162408
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Classroom First Spritesheet 3_12
+      rect:
+        serializedVersion: 2
+        x: 420
+        y: 13
+        width: 41
+        height: 81
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9623c0b28daea4a80800000000000000
+      internalID: -8481708734042852759
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Classroom First Spritesheet 3_0: -1251509062778223848
+      Classroom First Spritesheet 3_1: 4546357337581744772
+      Classroom First Spritesheet 3_10: 5954448334098882657
+      Classroom First Spritesheet 3_11: -6984371895107162408
+      Classroom First Spritesheet 3_12: -8481708734042852759
+      Classroom First Spritesheet 3_2: -7468618187843567534
+      Classroom First Spritesheet 3_3: 1374832320497075031
+      Classroom First Spritesheet 3_4: 4267878497839303218
+      Classroom First Spritesheet 3_5: 9581811493226079
+      Classroom First Spritesheet 3_6: -7932061594214694023
+      Classroom First Spritesheet 3_7: -4990036772042578278
+      Classroom First Spritesheet 3_8: -4046869531056075771
+      Classroom First Spritesheet 3_9: 5590560097143157986
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -35,22 +35,22 @@ public class InteractionDetector : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Interactable"))
+        if (other.CompareTag("Interactable") || other.CompareTag("Portal"))
         {
-            // var npc = other.GetComponent<NPCDialogue>() ?? other.GetComponentInParent<NPCDialogue>();
+            var npc = other.GetComponent<NPCDialogue>() ?? other.GetComponentInParent<NPCDialogue>();
 
-            // if (npc != null )
-            // {
-                // currentNPC = npc;
+            if (npc != null )
+            {
+                currentNPC = npc;
                 if (interactionIcon != null)
                     interactionIcon.SetActive(true);
-            // }
+            }
         }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Interactable"))
+        if (other.CompareTag("Interactable") || other.CompareTag("Portal"))
         {
             if (interactionIcon != null)
                 interactionIcon.SetActive(false);

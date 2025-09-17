@@ -12,10 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cdd236328e87aa48bbbe0cfac38ac77, type: 3}
   m_Name: Dialogue_1
   m_EditorClassIdentifier: 
-  npcName: Boy 1
-  dialogueLines:
-  - HAHA...
-  - MANEZAO
-  typingSpeed: 0.05
-  autoProgressLines: 0100
-  autoProgressDelay: 2
+  situation: Bullying
+  description: 
+  optionA: 
+  optionB: 
+  optionC: 
+  onChooseCorrect:
+    m_PersistentCalls:
+      m_Calls: []
+  onChooseNeutral:
+    m_PersistentCalls:
+      m_Calls: []
+  onChooseWrong:
+    m_PersistentCalls:
+      m_Calls: []

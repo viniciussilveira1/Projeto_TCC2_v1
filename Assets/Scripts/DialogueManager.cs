@@ -8,7 +8,6 @@ public class DialogueManager : MonoBehaviour
 
     [Header("Referências de UI")]
     public GameObject panel;            // DialoguePanel inteiro
-    public TMP_Text situationText;      // opcional
     public TMP_Text descriptionText;
     public Button[] optionButtons = new Button[3];
 
@@ -40,12 +39,9 @@ public class DialogueManager : MonoBehaviour
 
     public void Show(NPCDialogue npc)
     {
-        if (npc == null || panel == null || descriptionText == null || optionButtons == null) return;
+        if (npc == null || panel == null || descriptionText == null || optionButtons == null || npc.IsResolved) return;
 
         currentNPC = npc;
-
-        if (situationText != null)
-            situationText.text = npc.situation;
 
         descriptionText.text = npc.description;
 
