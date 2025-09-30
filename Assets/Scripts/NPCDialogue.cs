@@ -1,14 +1,12 @@
 using UnityEngine;
 using UnityEngine.Events;
+using System;
 
+[DisallowMultipleComponent]
 public class NPCDialogue : MonoBehaviour
 {
-    [Header("Tema/Situação (ex.: Bullying, Violência, Drogas)")]
-    public string situation = "Bullying";
-
     [Header("Descrição/Contexto")]
-    [TextArea(3, 6)]
-    public string description;
+    [TextArea(3, 6)] public string description;
 
     [Header("Respostas (ordem: Certa, Neutra, Errada)")]
     public string optionA; // Certa
@@ -20,11 +18,22 @@ public class NPCDialogue : MonoBehaviour
     public UnityEvent onChooseNeutral;
     public UnityEvent onChooseWrong;
 
+    [Header("Persistência (somente sessão)")]
+    [Tooltip("ID único desta situação (gerado automaticamente)")]
+    [SerializeField] private string situationId;
+
+    [Tooltip("Raiz a ocultar ao recarregar (se Eliminada). Se vazio, usa este GameObject.")]
+    [SerializeField] private GameObject hideOnReload;
+
     public bool IsResolved { get; private set; }
+    public string SituationId => situationId;
+    public GameObject HideTarget => hideOnReload ? hideOnReload : gameObject;
 
-    public void MarkResolved()
+    public void MarkResolved() => IsResolved = true;
+
+    private void OnValidate()
     {
-        IsResolved = true;
+        if (string.IsNullOrEmpty(situationId))
+            situationId = Guid.NewGuid().ToString("N");
     }
-
 }

@@ -3,17 +3,25 @@ using UnityEngine.SceneManagement;
 
 public class Portal : MonoBehaviour
 {
-    [Header("Configurações do Portal")]
-    [SerializeField] private string sceneName;
-    [SerializeField] private string spawnPointName;
+    [Header("Destino")]
+    [SerializeField] private string sceneName;          // nome exato da cena no Build Settings
+    [SerializeField] private string spawnPointId = "spawn_1"; // ID do SpawnPoint NA CENA DESTINO
 
-    private bool playerNearby = false;
+    [Header("Interação")]
+    [SerializeField] private KeyCode interactKey = KeyCode.E;
+
+    private bool playerNearby;
 
     private void Update()
     {
-        if (playerNearby && Input.GetKeyDown(KeyCode.E))
+        if (!playerNearby) return;
+
+        if (Input.GetKeyDown(interactKey))
         {
-            PlayerPrefs.SetString("LastSpawn", spawnPointName);
+            // informa ao Player onde aparecer na próxima cena
+            PlayerMovement.PendingSpawnId = string.IsNullOrEmpty(spawnPointId) ? "spawn_1" : spawnPointId;
+
+            // carrega a cena destino
             SceneManager.LoadScene(sceneName);
         }
     }
@@ -28,5 +36,11 @@ public class Portal : MonoBehaviour
     {
         if (other.CompareTag("Player"))
             playerNearby = false;
+    }
+
+    private void OnValidate()
+    {
+        if (string.IsNullOrWhiteSpace(spawnPointId))
+            spawnPointId = "spawn_1";
     }
 }

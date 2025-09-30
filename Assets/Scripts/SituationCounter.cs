@@ -11,15 +11,12 @@ public class SituationCounter : MonoBehaviour
 
     public int Current { get; private set; }
 
-    // Placar
-    public int Correct { get; private set; }
-    public int Neutral { get; private set; }
-    public int Wrong { get; private set; }
-
     public event Action<int, int> OnChanged;
     public event Action OnGoalReached;
 
     private bool goalAlreadyFired = false;
+
+    public int Score   { get; private set; }   // <—— NOVO
 
     private void Awake()
     {
@@ -37,16 +34,19 @@ public class SituationCounter : MonoBehaviour
         OnChanged?.Invoke(Current, goal);
     }
 
-    // Se você quiser contar resposta + progresso no mesmo clique:
-    public void AddCorrect() { Correct++; Increment(1); }
-    public void AddNeutral() { Neutral++; Increment(1); }
-    public void AddWrong() { Wrong++; Increment(1); }
-
     public void RegisterAnswer(int index)
     {
-        if (index == 0) Correct++;
-        else if (index == 1) Neutral++;
-        else Wrong++;
+        switch (index)
+        {
+            case 0:
+                Score += 10;
+                break;
+            case 1:
+                break;
+            default:
+                Score -= 10;
+                break;
+        }
     }
 
     public void Increment(int amount)
@@ -68,9 +68,7 @@ public class SituationCounter : MonoBehaviour
     public void ResetAll()
     {
         Current = 0;
-        Correct = 0;
-        Neutral = 0;
-        Wrong = 0;
+        Score = 0;
         goalAlreadyFired = false;
         OnChanged?.Invoke(Current, goal);
     }

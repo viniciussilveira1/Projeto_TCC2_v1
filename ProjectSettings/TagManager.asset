@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Interactable
   - Portal
+  - CameraBounds
   layers:
   - Default
   - TransparentFX

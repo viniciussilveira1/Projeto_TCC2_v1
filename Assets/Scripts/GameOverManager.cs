@@ -55,10 +55,8 @@ public class GameOverManager : MonoBehaviour
             var sc = SituationCounter.Instance;
             resultText.text =
                 $"Você concluiu {sc.Current}/{sc.Goal} situações.\n\n" +
-                $"Acertos: {sc.Correct}\n" +
-                $"Neutras: {sc.Neutral}\n" +
-                $"Erradas: {sc.Wrong}";
-        }
+                $"Pontuação: {sc.Score}";
+            }
 
         if (gameOverPanel != null) gameOverPanel.SetActive(true);
         Time.timeScale = 0f;

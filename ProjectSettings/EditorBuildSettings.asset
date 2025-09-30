@@ -15,6 +15,12 @@ EditorBuildSettings:
     path: Assets/Scenes/Classroom1.unity
     guid: 80223b73beb4e0441947ed97c9ca8d3d
   - enabled: 1
+    path: Assets/Scenes/Classroom.unity
+    guid: 0589e0ad89bbbc54f8d3464117f4f930
+  - enabled: 1
+    path: Assets/Scenes/Cafeteria.unity
+    guid: 3b6f8d222dab4dd44b23529b3ee7a28d
+  - enabled: 1
     path: Assets/Scenes/Backyard.unity
     guid: 567228eacf314024eac3c14837c2ef5b
   m_configObjects:

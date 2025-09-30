@@ -8,8 +8,11 @@ public class InteractionDetector : MonoBehaviour
     [Header("Tecla de interação")]
     public KeyCode interactKey = KeyCode.E;
 
-    // Guarda o NPC atual em alcance
     private NPCDialogue currentNPC;
+
+    public static InteractionDetector Instance { get; private set; }
+
+    private void Awake() => Instance = this;
 
     private void Start()
     {
@@ -19,31 +22,40 @@ public class InteractionDetector : MonoBehaviour
 
     private void Update()
     {
-        // só abre se o NPC existe, não está resolvido e o player apertar a tecla
+        // alvo foi desativado/destruído
+        if (currentNPC != null && !currentNPC.gameObject.activeInHierarchy)
+        {
+            HideIcon();
+            currentNPC = null;
+        }
+
+        // abrir diálogo
         if (currentNPC != null && Input.GetKeyDown(interactKey))
         {
             if (DialogueManager.Instance == null)
             {
-                Debug.LogError("[InteractionDetector] DialogueManager.Instance é nulo. Coloque um DialogueManager na cena e ligue as refer  ências.");
+                Debug.LogError("[InteractionDetector] DialogueManager.Instance é nulo.");
                 return;
             }
 
             DialogueManager.Instance.Show(currentNPC);
+            HideIcon();
         }
     }
-
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Interactable") || other.CompareTag("Portal"))
         {
             var npc = other.GetComponent<NPCDialogue>() ?? other.GetComponentInParent<NPCDialogue>();
-
-            if (npc != null )
+            if (npc != null && npc.gameObject.activeInHierarchy)
             {
+                // bloqueia se já está resolvido ou eliminado nesta sessão
+                if (npc.IsResolved || SessionProgress.IsResolved(npc.SituationId))
+                    return;
+
                 currentNPC = npc;
-                if (interactionIcon != null)
-                    interactionIcon.SetActive(true);
+                ShowIcon();
             }
         }
     }
@@ -52,15 +64,39 @@ public class InteractionDetector : MonoBehaviour
     {
         if (other.CompareTag("Interactable") || other.CompareTag("Portal"))
         {
-            if (interactionIcon != null)
-                interactionIcon.SetActive(false);
-
-            // Se saiu do mesmo NPC, limpa a referência
             var exitingNPC = other.GetComponent<NPCDialogue>() ?? other.GetComponentInParent<NPCDialogue>();
             if (exitingNPC != null && exitingNPC == currentNPC)
             {
                 currentNPC = null;
+                HideIcon();
             }
+            else if (currentNPC == null)
+            {
+                HideIcon();
+            }
+        }
+    }
+
+    private void ShowIcon()
+    {
+        if (interactionIcon != null && !interactionIcon.activeSelf)
+            interactionIcon.SetActive(true);
+    }
+
+    private void HideIcon()
+    {
+        if (interactionIcon != null && interactionIcon.activeSelf)
+            interactionIcon.SetActive(false);
+    }
+
+    public void HideIfTarget(Transform target)
+    {
+        if (!target) return;
+        var npc = target.GetComponent<NPCDialogue>() ?? target.GetComponentInParent<NPCDialogue>();
+        if (npc != null && npc == currentNPC)
+        {
+            currentNPC = null;
+            HideIcon();
         }
     }
 }
