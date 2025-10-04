@@ -12,9 +12,15 @@ public class GlobalSituationHUD : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null && Instance != this) { Destroy(gameObject); return; }
+        if (Instance != null && Instance != this) 
+        { 
+            Destroy(gameObject); 
+            return; 
+        }
+
         Instance = this;
-        DontDestroyOnLoad(gameObject); // mantém o HUD entre cenas
+        transform.SetParent(null);
+        DontDestroyOnLoad(gameObject);
     }
 
     private void OnEnable()

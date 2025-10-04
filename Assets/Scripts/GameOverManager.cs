@@ -53,9 +53,28 @@ public class GameOverManager : MonoBehaviour
         if (SituationCounter.Instance != null && resultText != null)
         {
             var sc = SituationCounter.Instance;
+
+            var finalResult = "";
+             
+            if (sc.Score >= 80 && sc.Score <= 100)
+            {
+                finalResult = "Excelente trabalho! Você demonstrou grande habilidade e dedicação ao resolver as situações apresentadas. Continue assim!";
+            }
+            else if (sc.Score >= 50 && sc.Score < 80)
+            {
+                finalResult = "Bom trabalho! Você conseguiu resolver a maioria das situações, mas ainda há espaço para melhorias. Continue praticando!";
+            }
+            else if (sc.Score >= 30 && sc.Score < 50)
+            {
+                finalResult = "Você conseguiu resolver algumas situações, mas é importante revisar os conceitos e estratégias para melhorar seu desempenho. Não desanime!";
+            }
+            else
+            {
+                finalResult = "Infelizmente, você não conseguiu resolver situações suficientes. Revise o material e tente novamente!";
+            }
             resultText.text =
                 $"Você concluiu {sc.Current}/{sc.Goal} situações.\n\n" +
-                $"Pontuação: {sc.Score}";
+                $"{finalResult}";
             }
 
         if (gameOverPanel != null) gameOverPanel.SetActive(true);

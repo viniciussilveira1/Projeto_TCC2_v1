@@ -41,7 +41,7 @@ public class DialogueManager : MonoBehaviour
 
     private void ApplySessionStateOnLoad()
     {
-        var all = FindObjectsOfType<NPCDialogue>(true);
+        var all = FindObjectsByType<NPCDialogue>(FindObjectsSortMode.None);
         foreach (var npc in all)
         {
             if (SessionProgress.IsEliminated(npc.SituationId))
@@ -61,7 +61,7 @@ public class DialogueManager : MonoBehaviour
 
     public void Show(NPCDialogue npc)
     {
-        if (npc == null || npc.IsResolved) return;
+        if (npc == null || npc.IsResolved || string.IsNullOrWhiteSpace(npc.description)) return;
 
         currentNPC = npc;
         if (descriptionText) descriptionText.text = npc.description;
@@ -79,21 +79,22 @@ public class DialogueManager : MonoBehaviour
 
         panel.SetActive(true);
         LockPlayer(true);
+        RtVoiceService.I?.Speak(npc.description);
     }
 
     private void OnOptionClicked(int index)
     {
         if (currentNPC == null || currentNPC.IsResolved) { Close(); return; }
 
-        // 1) Dispara UnityEvent (se a opção faz sumir, NPCDespawn rodará agora)
+        // 1) Dispara UnityEvent
         switch (index)
         {
             case 0: currentNPC.onChooseCorrect?.Invoke(); break;
             case 1: currentNPC.onChooseNeutral?.Invoke(); break;
-            case 2: currentNPC.onChooseWrong?.Invoke();   break;
+            case 2: currentNPC.onChooseWrong?.Invoke(); break;
         }
 
-        // 2) Marca como resolvido SEMPRE (impede reinteração após reload)
+        // 2) Marca como resolvido
         currentNPC.MarkResolved();
         SessionProgress.MarkResolved(currentNPC.SituationId);
 
@@ -110,6 +111,9 @@ public class DialogueManager : MonoBehaviour
 
     private void Close()
     {
+        if (RtVoiceService.I != null)
+            RtVoiceService.I.StopSpeaking();
+
         panel?.SetActive(false);
         currentNPC = null;
         LockPlayer(false);

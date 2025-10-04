@@ -610,7 +610,25 @@ PlayerSettings:
   webGLCloseOnQuit: 0
   webWasm2023: 0
   webEnableSubmoduleStrippingCompatibility: 0
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    Android: CT_PROC;CT_RTV
+    EmbeddedLinux: CT_PROC;CT_RTV
+    GameCoreScarlett: CT_PROC;CT_RTV
+    GameCoreXboxOne: CT_PROC;CT_RTV
+    Kepler: CT_PROC;CT_RTV
+    LinuxHeadlessSimulation: CT_PROC;CT_RTV
+    Nintendo Switch: CT_PROC;CT_RTV
+    PS4: CT_PROC;CT_RTV
+    PS5: CT_PROC;CT_RTV
+    QNX: CT_PROC;CT_RTV
+    ReservedCFE: CT_PROC;CT_RTV
+    Standalone: CT_PROC;CT_RTV
+    VisionOS: CT_PROC;CT_RTV
+    WebGL: CT_PROC;CT_RTV
+    Windows Store Apps: CT_PROC;CT_RTV
+    XboxOne: CT_PROC;CT_RTV
+    iPhone: CT_PROC;CT_RTV
+    tvOS: CT_PROC;CT_RTV
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:
@@ -628,7 +646,7 @@ PlayerSettings:
   gcIncremental: 1
   gcWBarrierValidation: 0
   apiCompatibilityLevelPerPlatform: {}
-  editorAssembliesCompatibilityLevel: 1
+  editorAssembliesCompatibilityLevel: 2
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
   metroPackageName: Projeto_TCC2_v1
@@ -705,7 +723,7 @@ PlayerSettings:
   hmiCpuConfiguration: 
   hmiLogStartupTiming: 0
   qnxGraphicConfPath: 
-  apiCompatibilityLevel: 6
+  apiCompatibilityLevel: 3
   captureStartupLogs: {}
   activeInputHandler: 2
   windowsGamepadBackendHint: 0

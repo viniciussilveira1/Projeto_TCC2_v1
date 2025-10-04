@@ -705,14 +705,14 @@ PrefabInstance:
     - target: {fileID: 2585358129344708518, guid: 37ca797eb4a589f4497b444b2abd74f5, type: 3}
       propertyPath: BoundingShape2D
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 946916655}
     - target: {fileID: 4587641033712500194, guid: 37ca797eb4a589f4497b444b2abd74f5, type: 3}
       propertyPath: m_Name
       value: CmCamera
       objectReference: {fileID: 0}
     - target: {fileID: 5801786919916666601, guid: 37ca797eb4a589f4497b444b2abd74f5, type: 3}
       propertyPath: Lens.OrthographicSize
-      value: 32
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 5801786919916666601, guid: 37ca797eb4a589f4497b444b2abd74f5, type: 3}
       propertyPath: Target.TrackingTarget
@@ -720,11 +720,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8345846376744882456, guid: 37ca797eb4a589f4497b444b2abd74f5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -12.879046
+      value: 11.2
       objectReference: {fileID: 0}
     - target: {fileID: 8345846376744882456, guid: 37ca797eb4a589f4497b444b2abd74f5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.0876055
+      value: -7.7
       objectReference: {fileID: 0}
     - target: {fileID: 8345846376744882456, guid: 37ca797eb4a589f4497b444b2abd74f5, type: 3}
       propertyPath: m_LocalPosition.z
@@ -59883,7 +59883,7 @@ GameObject:
   - component: {fileID: 946916654}
   - component: {fileID: 946916655}
   m_Layer: 0
-  m_Name: Cafeteria
+  m_Name: MapBounds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -59897,12 +59897,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 946916653}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -18.09258, y: 1.54873, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1377584185}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!60 &946916655
 PolygonCollider2D:
@@ -61879,38 +61879,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &1377584184
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1377584185}
-  m_Layer: 0
-  m_Name: MapBounds
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1377584185
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1377584184}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -18.09258, y: 1.54873, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 946916654}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1401848623
 GameObject:
   m_ObjectHideFlags: 0
@@ -63193,7 +63161,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2882606730828960958, guid: 724f172685eff204aa674d8929340b80, type: 3}
       propertyPath: spawnPointId
-      value: Hall_4
+      value: Hall_3
       objectReference: {fileID: 0}
     - target: {fileID: 3232901956138863688, guid: 724f172685eff204aa674d8929340b80, type: 3}
       propertyPath: m_Name
@@ -64846,7 +64814,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 32
+  orthographic size: 12
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -64871,7 +64839,7 @@ Transform:
   m_GameObject: {fileID: 2136159588}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.879046, y: 2.0876055, z: -10}
+  m_LocalPosition: {x: 11.2, y: -7.7, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -64975,7 +64943,7 @@ SceneRoots:
   - {fileID: 1166378166}
   - {fileID: 138706941}
   - {fileID: 1231297013}
-  - {fileID: 1377584185}
+  - {fileID: 946916654}
   - {fileID: 1625429852}
   - {fileID: 25825636}
   - {fileID: 2141339127}
