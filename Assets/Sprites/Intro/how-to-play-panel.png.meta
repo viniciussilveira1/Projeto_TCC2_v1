@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 5688760467f7d6f4b96250b4cdc62bfe
+guid: 3ccc123451253d54cb8b986d7f4f9fca
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6143947034558860144
-    second: intro_0
+      213: 4132941033019734864
+    second: how-to-play-panel_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: intro_0
+      name: how-to-play-panel_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 928
-        width: 1024
-        height: 608
+        y: 0
+        width: 1758
+        height: 1156
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,52 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 07b02b1a64fa34550800000000000000
-      internalID: 6143947034558860144
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: intro_1
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 480
-        width: 1024
-        height: 446
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1f1f0696b4b309743831bb36a83b7bd0
-      internalID: -1673312557
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: intro_2
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 7
-        width: 1024
-        height: 457
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 62aafab039057764697476a8484092ae
-      internalID: -1685501945
+      spriteID: 05bf6c6e8f72b5930800000000000000
+      internalID: 4132941033019734864
       vertices: []
       indices: 
       edges: []
@@ -182,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: d0904171a61ab8e448a6967bb6c22525
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -190,13 +146,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries:
-      - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":3.0},"gridSpriteSize":{"x":1024.0,"y":478.0},"gridSpriteOffset":{"x":0.0,"y":100.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+      entries: []
     nameFileIdTable:
-      intro_0: 6143947034558860144
-      intro_1: -1673312557
-      intro_2: -1685501945
+      how-to-play-panel_0: 4132941033019734864
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

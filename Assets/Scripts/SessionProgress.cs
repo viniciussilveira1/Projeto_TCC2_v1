@@ -2,31 +2,29 @@ using System.Collections.Generic;
 
 public static class SessionProgress
 {
-    private static readonly HashSet<string> resolved   = new HashSet<string>();
-    private static readonly HashSet<string> eliminated = new HashSet<string>();
+    private static readonly HashSet<string> _resolved = new();
+    private static readonly HashSet<string> _eliminated = new();
 
-    public static bool IsResolved(string id) =>
-        !string.IsNullOrEmpty(id) && (resolved.Contains(id) || eliminated.Contains(id));
-
-    public static bool IsEliminated(string id) =>
-        !string.IsNullOrEmpty(id) && eliminated.Contains(id);
+    public static bool IsResolved(string id)    => !string.IsNullOrEmpty(id) && _resolved.Contains(id);
+    public static bool IsEliminated(string id)  => !string.IsNullOrEmpty(id) && _eliminated.Contains(id);
 
     public static void MarkResolved(string id)
     {
-        if (string.IsNullOrEmpty(id)) return;
-        resolved.Add(id);
+        if (!string.IsNullOrEmpty(id)) _resolved.Add(id);
     }
 
     public static void MarkEliminated(string id)
     {
-        if (string.IsNullOrEmpty(id)) return;
-        eliminated.Add(id);
-        resolved.Add(id); // eliminado implica resolvido
+        if (!string.IsNullOrEmpty(id)) _eliminated.Add(id);
     }
 
-    public static void ClearAll()
+    public static void ResetAll()
     {
-        resolved.Clear();
-        eliminated.Clear();
+        _resolved.Clear();
+        _eliminated.Clear();
     }
+
+    // Garante reset ao entrar no Play (mesmo com "Reload Domain" desabilitado)
+    [UnityEngine.RuntimeInitializeOnLoadMethod(UnityEngine.RuntimeInitializeLoadType.BeforeSceneLoad)]
+    private static void ResetOnLoad() => ResetAll();
 }

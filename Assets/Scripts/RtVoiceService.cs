@@ -3,6 +3,7 @@ using UnityEngine;
 using Crosstales.RTVoice;
 using Crosstales.RTVoice.Model;
 using System.Collections;
+using System.Linq;
 
 [DefaultExecutionOrder(-100)] // << inicializa antes do Binder/Player
 public class RtVoiceService : MonoBehaviour
@@ -22,7 +23,11 @@ public class RtVoiceService : MonoBehaviour
     [SerializeField] private float speakDelayAfterSilence = 0.15f;
     [SerializeField] private bool ignoreWhileSpeaking = false;
 
+    // Voz selecionada (pt-BR)
     private Voice vozPtBr;
+    // Se temos TTS disponível e permitido (somente se achar voz pt-br)
+    private bool useTTS = false;
+
     private bool isSpeaking;
     private string currentUid;
     private Coroutine pendingSpeak;
@@ -36,14 +41,19 @@ public class RtVoiceService : MonoBehaviour
 
         if (!audioSource) audioSource = GetComponent<AudioSource>();
         if (!audioSource) audioSource = gameObject.AddComponent<AudioSource>(); // << garante uma fonte
+        audioSource.playOnAwake = false;
         if (mixerGroup && audioSource) audioSource.outputAudioMixerGroup = mixerGroup;
 
         // Inscreve nos eventos do RTVoice
-        Speaker.Instance.OnVoicesReady += InitVoz;
-        Speaker.Instance.OnSpeakStart  += OnSpeakStart;
-        Speaker.Instance.OnSpeakComplete += OnSpeakEnd;
+        if (Speaker.Instance != null)
+        {
+            Speaker.Instance.OnVoicesReady += InitVoz;
+            Speaker.Instance.OnSpeakStart  += OnSpeakStart;
+            Speaker.Instance.OnSpeakComplete += OnSpeakEnd;
+        }
 
-        if (Speaker.Instance.Voices.Count > 0)
+        // Se já há vozes carregadas, inicializa imediatamente
+        if (Speaker.Instance != null && Speaker.Instance.Voices != null && Speaker.Instance.Voices.Count > 0)
             InitVoz();
 
         DontDestroyOnLoad(gameObject);
@@ -59,12 +69,47 @@ public class RtVoiceService : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Inicializa a seleção de voz: procura por pt-BR, depois por pt, e também tenta por nomes contendo "Portuguese"/"Português".
+    /// Se não encontrar nada, desativa o uso de TTS (useTTS = false).
+    /// </summary>
     private void InitVoz()
     {
-        vozPtBr = Speaker.Instance.VoiceForCulture("pt-BR");
+        vozPtBr = null;
+        useTTS = false;
+
+        if (Speaker.Instance == null || Speaker.Instance.Voices == null || Speaker.Instance.Voices.Count == 0)
+        {
+            Debug.LogWarning("[RtVoiceService] Nenhuma voz disponível no Speaker.Instance.");
+            return;
+        }
+
+        // 1) Busca voz que tenha culture exata "pt-BR"
+        vozPtBr = Speaker.Instance.Voices.Find(v => !string.IsNullOrEmpty(v.Culture) && v.Culture.Equals("pt-BR", System.StringComparison.OrdinalIgnoreCase));
+
+        // 2) Se não encontrou, busca por culture que comece com "pt"
         if (vozPtBr == null)
-            vozPtBr = Speaker.Instance.Voices.Find(v => !string.IsNullOrEmpty(v.Culture) && v.Culture.StartsWith("pt"));
-        Debug.Log($"[RtVoiceService] Voz selecionada: {vozPtBr?.Name ?? "(padrão do sistema)"}");
+            vozPtBr = Speaker.Instance.Voices.Find(v => !string.IsNullOrEmpty(v.Culture) && v.Culture.StartsWith("pt", System.StringComparison.OrdinalIgnoreCase));
+
+        // 3) Se ainda não encontrou, tenta nomes que contenham "Portuguese" ou "Português"
+        if (vozPtBr == null)
+        {
+            vozPtBr = Speaker.Instance.Voices.Find(v =>
+                (!string.IsNullOrEmpty(v.Name) && (v.Name.ToLower().Contains("portuguese") || v.Name.ToLower().Contains("português")))
+                || (!string.IsNullOrEmpty(v.Description) && (v.Description.ToLower().Contains("portuguese") || v.Description.ToLower().Contains("português")))
+            );
+        }
+
+        if (vozPtBr != null)
+        {
+            useTTS = true;
+            Debug.Log($"[RtVoiceService] Voz pt encontrada e habilitada: {vozPtBr.Name} ({vozPtBr.Culture})");
+        }
+        else
+        {
+            useTTS = false;
+            Debug.LogWarning("[RtVoiceService] Nenhuma voz pt-BR encontrada no sistema. TTS será desativado (não haverá fala).");
+        }
     }
 
     private void OnSpeakStart(Wrapper w)
@@ -80,7 +125,7 @@ public class RtVoiceService : MonoBehaviour
             isSpeaking = false;
             currentUid = null;
         }
-        else if (!Speaker.Instance.isSpeaking)
+        else if (Speaker.Instance != null && !Speaker.Instance.isSpeaking)
         {
             isSpeaking = false;
             currentUid = null;
@@ -97,7 +142,9 @@ public class RtVoiceService : MonoBehaviour
             pendingSpeak = null;
         }
 
-        Speaker.Instance.Silence();
+        if (Speaker.Instance != null)
+            Speaker.Instance.Silence();
+
         isSpeaking = false;
         currentUid = null;
         descriptionSpeaking = false;
@@ -112,7 +159,7 @@ public class RtVoiceService : MonoBehaviour
         if (string.IsNullOrWhiteSpace(text)) return;
         if (Time.unscaledTime < muteUntilTime) return;
         if (ignoreWhileSpeaking && isSpeaking) return;
-        Debug.Log($"[RtVoiceService] texto: {text}");
+        Debug.Log($"[RtVoiceService] texto solicitado: {text}");
 
         if (pendingSpeak != null)
         {
@@ -124,11 +171,25 @@ public class RtVoiceService : MonoBehaviour
 
     private IEnumerator SpeakRoutine(string text, bool interrupt)
     {
-        // Aguarda RTVoice estar pronto e com pelo menos 1 voz
-        while (Speaker.Instance == null || Speaker.Instance.Voices == null || Speaker.Instance.Voices.Count == 0)
+        // Aguarda RTVoice estar pronto e com pelo menos 1 voz (ou até Speaker existir)
+        while (Speaker.Instance == null || Speaker.Instance.Voices == null)
         {
             Debug.Log("[RtVoiceService] Aguardando RTVoice inicializar vozes...");
             yield return null;
+        }
+
+        // Reconfere a voz caso tenha sido carregada tardiamente
+        if (!useTTS)
+        {
+            InitVoz();
+        }
+
+        // Se não temos voz pt-br disponível, não fala
+        if (!useTTS || vozPtBr == null)
+        {
+            Debug.Log("[RtVoiceService] Voz pt-BR não disponível — pulando TTS.");
+            pendingSpeak = null;
+            yield break;
         }
 
         if (interrupt)
@@ -141,7 +202,7 @@ public class RtVoiceService : MonoBehaviour
         currentUid = Speaker.Instance.Speak(
             text: text,
             source: audioSource,
-            voice: vozPtBr,      // pode ser null -> RTVoice usa padrão
+            voice: vozPtBr,      // voz garantida ser pt-br (ou similar)
             speakImmediately: true,
             rate: rate,
             pitch: pitch,

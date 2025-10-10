@@ -88,10 +88,12 @@ public class GameOverManager : MonoBehaviour
         if (SituationCounter.Instance != null)
             SituationCounter.Instance.ResetAll();
 
-        if (!string.IsNullOrEmpty(firstSceneName))
-            SceneManager.LoadScene(firstSceneName);
-        else
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SessionProgress.ResetAll();
+
+        DialogueManager.Instance?.gameObject.SetActive(true);
+        RtVoiceService.I?.StopSpeaking();
+
+        Portal.Travel(firstSceneName);
     }
 
     private void OnQuit()

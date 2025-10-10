@@ -45,12 +45,11 @@ public class InteractionDetector : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Interactable") || other.CompareTag("Portal"))
+        if (other.CompareTag("Interactable"))
         {
             var npc = other.GetComponent<NPCDialogue>() ?? other.GetComponentInParent<NPCDialogue>();
             if (npc != null && npc.gameObject.activeInHierarchy)
             {
-                // bloqueia se já está resolvido ou eliminado nesta sessão
                 if (npc.IsResolved || SessionProgress.IsResolved(npc.SituationId))
                     return;
 
@@ -58,11 +57,16 @@ public class InteractionDetector : MonoBehaviour
                 ShowIcon();
             }
         }
+        else if (other.CompareTag("Portal"))
+        {
+            currentNPC = null;
+            ShowIcon();
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Interactable") || other.CompareTag("Portal"))
+        if (other.CompareTag("Interactable"))
         {
             var exitingNPC = other.GetComponent<NPCDialogue>() ?? other.GetComponentInParent<NPCDialogue>();
             if (exitingNPC != null && exitingNPC == currentNPC)
@@ -74,6 +78,11 @@ public class InteractionDetector : MonoBehaviour
             {
                 HideIcon();
             }
+        }
+        else if (other.CompareTag("Portal"))
+        {
+            currentNPC = null;
+            ShowIcon();
         }
     }
 
