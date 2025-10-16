@@ -13,13 +13,13 @@ public class GlobalSituationHUD : MonoBehaviour
     private void Awake()
     {
         if (Instance != null && Instance != this) 
-        { 
+        {
             Destroy(gameObject); 
             return; 
         }
 
         Instance = this;
-        transform.SetParent(null);
+        // transform.SetParent(null);
         DontDestroyOnLoad(gameObject);
     }
 

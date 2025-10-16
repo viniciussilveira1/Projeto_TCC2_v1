@@ -50,7 +50,10 @@ public class CinematicPlayer : MonoBehaviour
 
     private void Start()
     {
-        if (autoPlayOnStart) StartCoroutine(PlayRoutine());
+        // NÃO ative o panel aqui (evita o flash inicial)
+        // Apenas inicia a coroutine (ela fará a ativação no momento correto).
+        if (autoPlayOnStart)
+            StartCoroutine(PlayRoutine());
     }
 
     private void Update()
@@ -82,14 +85,55 @@ public class CinematicPlayer : MonoBehaviour
 
     private IEnumerator PlayRoutine()
     {
-        // Fade-in
+        // --- Pré-configura o primeiro slide para evitar "New Text" aparecendo ---
+        if (slides != null && slides.Count > 0)
+        {
+            // Preenche a imagem e limpa o texto antes de ativar o panel
+            if (slideImage != null)
+            {
+                slideImage.sprite = slides[0].image;
+                slideImage.preserveAspect = true;
+                // garante que o componente de imagem esteja visível
+                slideImage.enabled = true;
+                // caso a imagem esteja transparente, força opacidade
+                slideImage.color = new Color(1f, 1f, 1f, 1f);
+            }
+
+            if (captionText != null)
+            {
+                // começa vazio para o typewriter preencher logo em seguida
+                captionText.text = string.Empty;
+            }
+        }
+        else
+        {
+            // se não há slides, limpa de qualquer jeito
+            if (slideImage != null) slideImage.sprite = null;
+            if (captionText != null) captionText.text = string.Empty;
+        }
+
+        // --- Ativa o panel SÓ AGORA ---
+        if (rootGroup != null && !rootGroup.gameObject.activeSelf)
+            rootGroup.gameObject.SetActive(true);
+
+        // garante alphas iniciais corretos para o fade
+        if (fader != null) fader.alpha = 1f;
+        if (rootGroup != null) rootGroup.alpha = 0f;
+
+        // forçar update de canvas/layout para o Unity aplicar mudanças antes do fade
+        Canvas.ForceUpdateCanvases();
+
+        // Pequeno yield para deixar o Unity processar um frame (reduz flash)
+        yield return null;
+
+        // Agora executa os fades já com o conteúdo preparado
         if (fader != null) yield return FadeCanvasGroup(fader, 1f, 0f, 0.5f);
         if (rootGroup != null) yield return FadeCanvasGroup(rootGroup, 0f, 1f, 0.3f);
 
+        // --- segue normalmente com a rotina de slides (igual ao seu original) ---
         for (int i = 0; i < slides.Count; i++)
         {
             _skipSlide = false;
-
             RtVoiceService.I?.StopSpeaking();
 
             if (slideImage != null)
@@ -100,7 +144,6 @@ public class CinematicPlayer : MonoBehaviour
 
             yield return ShowCaption(slides[i].caption);
 
-            // hold do slide
             float t = 0f;
             while (t < slides[i].holdSeconds && !_skipSlide)
             {
@@ -110,7 +153,6 @@ public class CinematicPlayer : MonoBehaviour
 
             RtVoiceService.I?.StopSpeaking();
 
-            // micro fade entre slides
             if (i < slides.Count - 1 && rootGroup != null)
             {
                 yield return FadeCanvasGroup(rootGroup, 1f, 0.85f, 0.12f);
@@ -120,7 +162,6 @@ public class CinematicPlayer : MonoBehaviour
 
         yield return FinishCinematic();
     }
-
     private IEnumerator ShowCaption(string text)
     {
         if (captionText != null) captionText.text = string.Empty;

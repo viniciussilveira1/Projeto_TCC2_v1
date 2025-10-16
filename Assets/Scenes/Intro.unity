@@ -1111,7 +1111,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1267906736
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1288,7 +1288,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37d20255fa82320468a28b144a9e7601, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  goal: 1
+  goal: 10
 --- !u!4 &1530833009
 Transform:
   m_ObjectHideFlags: 0
@@ -1561,11 +1561,11 @@ MonoBehaviour:
     caption: "O som do sinal ecoa pela escola. O primeiro dia de aula come\xE7a"
     holdSeconds: 6
   - image: {fileID: 21300000, guid: d1fd50e67e833d8488a9b30ad4c71eb8, type: 3}
-    caption: "Voc\xEA respira fundo e observa a nova escola. Tudo \xE9 diferente."
+    caption: "Voc\xEA respira fundo e observa a nova escola. Tudo \xE9 diferente"
     holdSeconds: 6
   - image: {fileID: 21300000, guid: 08a78affc4b48e042b939d405e236b70, type: 3}
     caption: "Salas novas, rostos desconhecidos, professores que ainda n\xE3o sabe
-      o nome."
+      o nome"
     holdSeconds: 6
   - image: {fileID: 21300000, guid: f43d8e4f5d6452e4e9619a55c532cbe6, type: 3}
     caption: "No come\xE7o, tudo parece normal. Mas logo voc\xEA percebe que nem
@@ -1583,7 +1583,7 @@ MonoBehaviour:
     caption: "Sua miss\xE3o \xE9 ajudar a resolver os problemas que aparecem, como
       o bullying, a viol\xEAncia, o desrespeito e o uso de drogas, sempre escolhendo
       o que achar certo"
-    holdSeconds: 6
+    holdSeconds: 10
   fadeDuration: 5
   typewriterSpeed: 40
   autoPlayOnStart: 1
@@ -1624,7 +1624,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!225 &1991622366
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -1691,8 +1691,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.1394, y: -0.0013428}
-  m_SizeDelta: {x: 1114.8584, y: 488.28}
+  m_AnchoredPosition: {x: -0.53476, y: -8.6321}
+  m_SizeDelta: {x: 1950.2, y: 1097}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2133397954
 GameObject:

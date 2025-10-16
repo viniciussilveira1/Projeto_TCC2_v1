@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class InteractionDetector : MonoBehaviour
 {
@@ -12,12 +13,45 @@ public class InteractionDetector : MonoBehaviour
 
     public static InteractionDetector Instance { get; private set; }
 
-    private void Awake() => Instance = this;
+    private void Awake()
+    {
+        // singleton simples
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+        Instance = this;
+    }
 
     private void Start()
     {
         if (interactionIcon != null)
             interactionIcon.SetActive(false);
+
+        // garante que ao trocar de cena escondemos o ícone
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDestroy()
+    {
+        // limpa listener e singleton
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+        if (Instance == this) Instance = null;
+    }
+
+    private void OnDisable()
+    {
+        // esconder ícone e limpar referência quando o objeto for desativado
+        HideIcon();
+        currentNPC = null;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // quando uma nova cena é carregada, escondemos o ícone e limpamos target
+        HideIcon();
+        currentNPC = null;
     }
 
     private void Update()
@@ -40,6 +74,7 @@ public class InteractionDetector : MonoBehaviour
 
             DialogueManager.Instance.Show(currentNPC);
             HideIcon();
+            currentNPC = null;
         }
     }
 
@@ -50,6 +85,7 @@ public class InteractionDetector : MonoBehaviour
             var npc = other.GetComponent<NPCDialogue>() ?? other.GetComponentInParent<NPCDialogue>();
             if (npc != null && npc.gameObject.activeInHierarchy)
             {
+                // se já resolvido, ignora
                 if (npc.IsResolved || SessionProgress.IsResolved(npc.SituationId))
                     return;
 
@@ -59,6 +95,7 @@ public class InteractionDetector : MonoBehaviour
         }
         else if (other.CompareTag("Portal"))
         {
+            // entrar no portal -> mostrar (se esse for o comportamento desejado)
             currentNPC = null;
             ShowIcon();
         }
@@ -74,15 +111,18 @@ public class InteractionDetector : MonoBehaviour
                 currentNPC = null;
                 HideIcon();
             }
-            else if (currentNPC == null)
+            else
             {
-                HideIcon();
+                // se saiu de outro interactable e não temos target, garantir ocultar
+                if (currentNPC == null)
+                    HideIcon();
             }
         }
         else if (other.CompareTag("Portal"))
         {
+            // sair do portal -> esconder o ícone (fix do bug)
             currentNPC = null;
-            ShowIcon();
+            HideIcon();
         }
     }
 
