@@ -95,7 +95,7 @@ public class InteractionDetector : MonoBehaviour
         }
         else if (other.CompareTag("Portal"))
         {
-            // entrar no portal -> mostrar (se esse for o comportamento desejado)
+            // entrar no portal -> mostrar 
             currentNPC = null;
             ShowIcon();
         }
@@ -120,7 +120,7 @@ public class InteractionDetector : MonoBehaviour
         }
         else if (other.CompareTag("Portal"))
         {
-            // sair do portal -> esconder o ícone (fix do bug)
+            // sair do portal 
             currentNPC = null;
             HideIcon();
         }

@@ -8,7 +8,7 @@ public class NPCDialogue : MonoBehaviour
     [Header("Descrição/Contexto")]
     [TextArea(3, 6)] public string description;
 
-    [Header("Respostas (ordem: Certa, Neutra, Errada)")]
+    [Header("Respostas (ordem interna: Certa, Neutra, Errada) — exibidas de forma ALEATÓRIA")]
     public string optionA; // Certa
     public string optionB; // Neutra
     public string optionC; // Errada

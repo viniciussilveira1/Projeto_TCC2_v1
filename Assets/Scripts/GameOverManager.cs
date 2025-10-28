@@ -81,28 +81,40 @@ public class GameOverManager : MonoBehaviour
         Time.timeScale = 0f;
     }
 
-    private void OnRestart()
+    public void OnRestart()
     {
         Time.timeScale = 1f;
 
-        if (SituationCounter.Instance != null)
-            SituationCounter.Instance.ResetAll();
-
+        // Reinicia sistemas do jogo
+        SituationCounter.Instance?.ResetAll();
         SessionProgress.ResetAll();
 
         DialogueManager.Instance?.gameObject.SetActive(true);
         RtVoiceService.I?.StopSpeaking();
 
+        // Recarrega a cena inicial do jogo
         Portal.Travel(firstSceneName);
     }
 
-    private void OnQuit()
+    public void OnQuit()
     {
         Time.timeScale = 1f;
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
+
+        // Limpa progressos e sistemas
+        SituationCounter.Instance?.ResetAll();
+        SessionProgress.ResetAll();
+        RtVoiceService.I?.StopSpeaking();
+
+        // Destroi o player persistente (que tem DontDestroyOnLoad)
+        var player = FindAnyObjectByType<PlayerMovement>(FindObjectsInactive.Include);
+        if (player != null)
+            Destroy(player.gameObject);
+
+        // Destroi também o DialogueManager se ele for persistente
+        if (DialogueManager.Instance != null)
+            Destroy(DialogueManager.Instance.gameObject);
+
+        // Vai pro menu principal
+        Portal.Travel("MainMenu");
     }
 }

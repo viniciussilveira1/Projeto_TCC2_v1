@@ -15,7 +15,7 @@ public class PauseMenu : MonoBehaviour
     {
         if (panel != null)
             panel.SetActive(false);
-
+            
         UpdateMuteText();
     }
 
@@ -52,23 +52,36 @@ public class PauseMenu : MonoBehaviour
     {
         Time.timeScale = 1f;
 
-        // Reinicia sistemas do jogo, igual ao GameOverManager
-        if (SituationCounter.Instance != null)
-            SituationCounter.Instance.ResetAll();
-
+        // Reinicia sistemas do jogo
+        SituationCounter.Instance?.ResetAll();
         SessionProgress.ResetAll();
 
         DialogueManager.Instance?.gameObject.SetActive(true);
         RtVoiceService.I?.StopSpeaking();
 
+        // Recarrega a cena inicial do jogo
         Portal.Travel(firstSceneName);
     }
 
     public void OnQuit()
     {
         Time.timeScale = 1f;
+
+        // Limpa progressos e sistemas
+        SituationCounter.Instance?.ResetAll();
+        SessionProgress.ResetAll();
         RtVoiceService.I?.StopSpeaking();
 
+        // 🔹 Destroi o player persistente (que tem DontDestroyOnLoad)
+        var player = FindAnyObjectByType<PlayerMovement>(FindObjectsInactive.Include);
+        if (player != null)
+            Destroy(player.gameObject);
+
+        // 🔹 Destroi também o DialogueManager se ele for persistente
+        if (DialogueManager.Instance != null)
+            Destroy(DialogueManager.Instance.gameObject);
+
+        // Vai pro menu principal
         Portal.Travel("MainMenu");
     }
 

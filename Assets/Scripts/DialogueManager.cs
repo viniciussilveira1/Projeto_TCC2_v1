@@ -2,8 +2,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.InputSystem;
+using System;
+using System.Collections.Generic;
 
-[DefaultExecutionOrder(-50)] // aplica estado da sessão antes de qualquer trigger/UI
+[DefaultExecutionOrder(-50)]
 public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager Instance { get; private set; }
@@ -15,18 +17,23 @@ public class DialogueManager : MonoBehaviour
 
     private NPCDialogue currentNPC;
 
+    // Mapeia cada botão ao tipo real da opção após embaralhar
+    private AnswerType[] buttonMap = new AnswerType[3];
+
     // Input/movimento
     private PlayerInput playerInput;
     private PlayerMovement playerMovement;
     private Rigidbody2D playerRb;
     private string previousActionMap;
 
+    private enum AnswerType { Correct = 0, Neutral = 1, Wrong = 2 }
+
     private void Awake()
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
 
-        ApplySessionStateOnLoad(); // <<< chave para impedir reinteração e ocultar eliminados
+        ApplySessionStateOnLoad();
 
         if (panel != null) panel.SetActive(false);
 
@@ -47,13 +54,12 @@ public class DialogueManager : MonoBehaviour
             if (SessionProgress.IsEliminated(npc.SituationId))
             {
                 InteractionDetector.Instance?.HideIfTarget(npc.transform);
-                npc.HideTarget.SetActive(false); // some no reload
+                npc.HideTarget.SetActive(false);
                 continue;
             }
 
             if (SessionProgress.IsResolved(npc.SituationId))
             {
-                // já foi resolvida nesta sessão: não pode reinteragir
                 npc.MarkResolved();
             }
         }
@@ -66,15 +72,37 @@ public class DialogueManager : MonoBehaviour
         currentNPC = npc;
         if (descriptionText) descriptionText.text = npc.description;
 
-        string[] opts = { npc.optionA, npc.optionB, npc.optionC };
-        for (int i = 0; i < optionButtons.Length; i++)
+        // 1) Cria lista (texto + tipo real)
+        var slots = new List<(string text, AnswerType type)>
         {
-            int idx = i;
+            (npc.optionA, AnswerType.Correct),
+            (npc.optionB, AnswerType.Neutral),
+            (npc.optionC, AnswerType.Wrong)
+        };
+
+        // 2) Embaralha (Fisher–Yates)
+        for (int i = slots.Count - 1; i > 0; i--)
+        {
+            int j = UnityEngine.Random.Range(0, i + 1);
+            (slots[i], slots[j]) = (slots[j], slots[i]);
+        }
+
+        // DEBUG: mostrar a ordem sorteada no console
+        Debug.Log($"[DialogueManager] Ordem sorteada: {string.Join(", ", slots.ConvertAll(s => s.type.ToString()))}");
+
+        // 3) Aplica nos botões e registra o mapa
+        for (int i = 0; i < optionButtons.Length && i < slots.Count; i++)
+        {
+            int btnIndex = i;
+            var (text, type) = slots[i];
+
             var label = optionButtons[i].GetComponentInChildren<TMP_Text>(true);
-            if (label != null) label.text = opts[i];
+            if (label != null) label.text = text ?? string.Empty;
+
+            buttonMap[i] = type;
 
             optionButtons[i].onClick.RemoveAllListeners();
-            optionButtons[i].onClick.AddListener(() => OnOptionClicked(idx));
+            optionButtons[i].onClick.AddListener(() => OnOptionClicked(btnIndex));
         }
 
         panel.SetActive(true);
@@ -86,34 +114,41 @@ public class DialogueManager : MonoBehaviour
     {
         if (currentNPC == null || currentNPC.IsResolved) { Close(); return; }
 
-        // 1) Dispara UnityEvent
-        switch (index)
+        // Descobre o tipo real da opção clicada
+        var type = buttonMap[Mathf.Clamp(index, 0, buttonMap.Length - 1)];
+
+        // 1) Dispara o UnityEvent correto
+        switch (type)
         {
-            case 0: currentNPC.onChooseCorrect?.Invoke(); break;
-            case 1: currentNPC.onChooseNeutral?.Invoke(); break;
-            case 2: currentNPC.onChooseWrong?.Invoke(); break;
+            case AnswerType.Correct: currentNPC.onChooseCorrect?.Invoke(); break;
+            case AnswerType.Neutral: currentNPC.onChooseNeutral?.Invoke(); break;
+            case AnswerType.Wrong:   currentNPC.onChooseWrong?.Invoke();   break;
         }
 
         // 2) Marca como resolvido
         currentNPC.MarkResolved();
         SessionProgress.MarkResolved(currentNPC.SituationId);
 
-        // 3) Esconde "!" se estiver apontando pra este alvo
+        // 3) Esconde "!"
         InteractionDetector.Instance?.HideIfTarget(currentNPC.transform);
 
-        // 4) Pontos (seu fluxo)
-        SituationCounter.Instance?.RegisterAnswer(index);
+        // 4) Pontuação: mantém o protocolo 0/1/2 (Certa/Neutra/Errada)
+        int scoreIndex = type switch
+        {
+            AnswerType.Correct => 0,
+            AnswerType.Neutral => 1,
+            _ => 2
+        };
+        SituationCounter.Instance?.RegisterAnswer(scoreIndex);
         SituationCounter.Instance?.Increment(1);
 
-        // 5) Fecha painel e libera player
+        // 5) Fecha
         Close();
     }
 
     private void Close()
     {
-        if (RtVoiceService.I != null)
-            RtVoiceService.I.StopSpeaking();
-
+        RtVoiceService.I?.StopSpeaking();
         panel?.SetActive(false);
         currentNPC = null;
         LockPlayer(false);
