@@ -44,7 +44,6 @@ public class SituationCounter : MonoBehaviour
             case 1:
                 break;
             default:
-                Score -= 10;
                 break;
         }
     }

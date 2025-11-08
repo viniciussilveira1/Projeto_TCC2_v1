@@ -4,7 +4,6 @@ using Crosstales.RTVoice;
 using System.Collections;
 using Crosstales.RTVoice.Model;
 
-[DefaultExecutionOrder(-100)] // Inicializa antes do Binder/Player
 public class RtVoiceService : MonoBehaviour
 {
     public static RtVoiceService I { get; private set; }
@@ -28,7 +27,7 @@ public class RtVoiceService : MonoBehaviour
     private Coroutine pendingSpeak;
     private float muteUntilTime;
     private bool descriptionSpeaking;
-
+    private bool isMuted;
     private void Awake()
     {
         if (I != null && I != this) { Destroy(gameObject); return; }
@@ -65,7 +64,7 @@ public class RtVoiceService : MonoBehaviour
     }
 
     /// <summary>
-    /// Inicializa TTS usando a voz padrão do sistema.
+    /// Inicializa TTS apenas se houver voz em português do Brasil (pt-BR).
     /// </summary>
     private void InitVoz()
     {
@@ -76,9 +75,24 @@ public class RtVoiceService : MonoBehaviour
             return;
         }
 
+        var vozPtBr = Speaker.Instance.Voices.Find(v =>
+            !string.IsNullOrEmpty(v.Culture) &&
+            v.Culture.ToLower().StartsWith("pt-br")
+        );
+
+        if (vozPtBr == null)
+        {
+            Debug.LogWarning("[RtVoiceService] Nenhuma voz pt-BR encontrada. TTS desativado.");
+            useTTS = false;
+            return;
+        }
+
+        Speaker.Instance.VoiceForCulture(vozPtBr.Culture);
         useTTS = true;
-        Debug.Log($"[RtVoiceService] Usando voz padrão do sistema: {Speaker.Instance.Voices[0].Name}");
+
+        Debug.Log($"[RtVoiceService] Voz pt-BR selecionada: {vozPtBr.Name} ({vozPtBr.Culture})");
     }
+
 
     private void OnSpeakStart(Wrapper w)
     {
@@ -185,6 +199,8 @@ public class RtVoiceService : MonoBehaviour
         descriptionSpeaking = true;
         SpeakSafe(text, interrupt: true);
     }
+
+    public bool IsMuted() => isMuted;
 
     public bool IsDescriptionSpeaking() => descriptionSpeaking;
 

@@ -15,7 +15,6 @@ public class InteractionDetector : MonoBehaviour
 
     private void Awake()
     {
-        // singleton simples
         if (Instance != null && Instance != this)
         {
             Destroy(this.gameObject);
@@ -29,41 +28,35 @@ public class InteractionDetector : MonoBehaviour
         if (interactionIcon != null)
             interactionIcon.SetActive(false);
 
-        // garante que ao trocar de cena escondemos o ícone
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     private void OnDestroy()
     {
-        // limpa listener e singleton
         SceneManager.sceneLoaded -= OnSceneLoaded;
         if (Instance == this) Instance = null;
     }
 
     private void OnDisable()
     {
-        // esconder ícone e limpar referência quando o objeto for desativado
         HideIcon();
         currentNPC = null;
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // quando uma nova cena é carregada, escondemos o ícone e limpamos target
         HideIcon();
         currentNPC = null;
     }
 
     private void Update()
     {
-        // alvo foi desativado/destruído
         if (currentNPC != null && !currentNPC.gameObject.activeInHierarchy)
         {
             HideIcon();
             currentNPC = null;
         }
 
-        // abrir diálogo
         if (currentNPC != null && Input.GetKeyDown(interactKey))
         {
             if (DialogueManager.Instance == null)
@@ -95,7 +88,6 @@ public class InteractionDetector : MonoBehaviour
         }
         else if (other.CompareTag("Portal"))
         {
-            // entrar no portal -> mostrar 
             currentNPC = null;
             ShowIcon();
         }
@@ -113,14 +105,12 @@ public class InteractionDetector : MonoBehaviour
             }
             else
             {
-                // se saiu de outro interactable e não temos target, garantir ocultar
                 if (currentNPC == null)
                     HideIcon();
             }
         }
         else if (other.CompareTag("Portal"))
         {
-            // sair do portal 
             currentNPC = null;
             HideIcon();
         }

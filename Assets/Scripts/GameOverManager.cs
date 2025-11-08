@@ -56,24 +56,19 @@ public class GameOverManager : MonoBehaviour
 
             var finalResult = "";
              
-            if (sc.Score >= 80 && sc.Score <= 100)
+            if (sc.Score >= 90 && sc.Score <= 100)
             {
-                finalResult = "Excelente trabalho! Você demonstrou grande habilidade e dedicação ao resolver as situações apresentadas. Continue assim!";
+                finalResult = "Parabéns, você arrasou! Suas Escolhas foram Super Certas e mostraram que você é um verdadeiro cidadão nota 10! O mundo precisa de pessoas como você, que espalham o bem por onde passam!";
             }
-            else if (sc.Score >= 50 && sc.Score < 80)
+            else if (sc.Score >= 50 && sc.Score <= 80)
             {
-                finalResult = "Bom trabalho! Você conseguiu resolver a maioria das situações, mas ainda há espaço para melhorias. Continue praticando!";
+                finalResult = "Você fez algumas boas escolhas, mas dá para melhorar ainda mais. Que tal jogar de novo, pensar um pouco, se colocar no lugar da outra pessoa, melhorar as escolhas e virar um campeão da cidadania?";
             }
-            else if (sc.Score >= 30 && sc.Score < 50)
+            else if (sc.Score >= 0 && sc.Score <= 40)
             {
-                finalResult = "Você conseguiu resolver algumas situações, mas é importante revisar os conceitos e estratégias para melhorar seu desempenho. Não desanime!";
-            }
-            else
-            {
-                finalResult = "Infelizmente, você não conseguiu resolver situações suficientes. Revise o material e tente novamente!";
+                finalResult = "Parece que você não tem feito Escolhas Certas. Suas decisões não foram muito legais. Mas não tem problema! Tente outra vez! Todo mundo pode aprender. Tente outra vez e mostre que você também sabe fazer o certo.";
             }
             resultText.text =
-                $"Você concluiu {sc.Current}/{sc.Goal} situações.\n\n" +
                 $"{finalResult}";
             }
 
