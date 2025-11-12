@@ -23,11 +23,18 @@ public class PauseMenu : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            var dm = DialogueManager.Instance;
+            if (dm != null && dm.IsOpen)
+            {
+                return;
+            }
+
             if (isPaused)
                 ResumeGame();
             else
                 PauseGame();
         }
+
     }
 
     private void PauseGame()
@@ -38,7 +45,6 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 0f;
         isPaused = true;
 
-        // 🔇 Para o TTS imediatamente
         RtVoiceService.I?.StopSpeaking();
     }
 

@@ -267,7 +267,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 594203925873067707, guid: 1754d1630040a514a837967954f1ad6d, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 152.078
+      value: 78.07
       objectReference: {fileID: 0}
     - target: {fileID: 594203925873067707, guid: 1754d1630040a514a837967954f1ad6d, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -275,7 +275,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 594203925873067707, guid: 1754d1630040a514a837967954f1ad6d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 131.804
+      value: 128
       objectReference: {fileID: 0}
     - target: {fileID: 1441402857241408024, guid: 1754d1630040a514a837967954f1ad6d, type: 3}
       propertyPath: m_SizeDelta.x
@@ -291,7 +291,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1441402857241408024, guid: 1754d1630040a514a837967954f1ad6d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -3.76
+      value: 39.204998
       objectReference: {fileID: 0}
     - target: {fileID: 3714742306012488355, guid: 1754d1630040a514a837967954f1ad6d, type: 3}
       propertyPath: m_Name
@@ -399,7 +399,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4590973620937828761, guid: 1754d1630040a514a837967954f1ad6d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -101.582
+      value: -58.617004
       objectReference: {fileID: 0}
     - target: {fileID: 4600274942763357728, guid: 1754d1630040a514a837967954f1ad6d, type: 3}
       propertyPath: m_SizeDelta.x
@@ -416,6 +416,22 @@ PrefabInstance:
     - target: {fileID: 4600274942763357728, guid: 1754d1630040a514a837967954f1ad6d, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 4.0312
+      objectReference: {fileID: 0}
+    - target: {fileID: 4628138321782522509, guid: 1754d1630040a514a837967954f1ad6d, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 4628138321782522509, guid: 1754d1630040a514a837967954f1ad6d, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 4628138321782522509, guid: 1754d1630040a514a837967954f1ad6d, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 463.69
+      objectReference: {fileID: 0}
+    - target: {fileID: 4628138321782522509, guid: 1754d1630040a514a837967954f1ad6d, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 137.04
       objectReference: {fileID: 0}
     - target: {fileID: 4903647473115125869, guid: 1754d1630040a514a837967954f1ad6d, type: 3}
       propertyPath: m_fontSize
@@ -439,7 +455,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5333890742496842593, guid: 1754d1630040a514a837967954f1ad6d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -197.55896
+      value: -154.59396
       objectReference: {fileID: 0}
     - target: {fileID: 5347527235066049596, guid: 1754d1630040a514a837967954f1ad6d, type: 3}
       propertyPath: m_IsActive
@@ -471,7 +487,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6883577851911821991, guid: 1754d1630040a514a837967954f1ad6d, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 653.067
+      value: 570.266
       objectReference: {fileID: 0}
     - target: {fileID: 6883577851911821991, guid: 1754d1630040a514a837967954f1ad6d, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -479,7 +495,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6883577851911821991, guid: 1754d1630040a514a837967954f1ad6d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -10.536
+      value: -51.937
       objectReference: {fileID: 0}
     - target: {fileID: 7222523943338575859, guid: 1754d1630040a514a837967954f1ad6d, type: 3}
       propertyPath: m_SizeDelta.x
@@ -540,6 +556,10 @@ PrefabInstance:
     - target: {fileID: 8678992226217751283, guid: 1754d1630040a514a837967954f1ad6d, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0.000076293945
+      objectReference: {fileID: 0}
+    - target: {fileID: 9034752917251523295, guid: 1754d1630040a514a837967954f1ad6d, type: 3}
+      propertyPath: m_text
+      value: New text
       objectReference: {fileID: 0}
     - target: {fileID: 9034752917251523295, guid: 1754d1630040a514a837967954f1ad6d, type: 3}
       propertyPath: m_fontSize
@@ -63806,7 +63826,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cdd236328e87aa48bbbe0cfac38ac77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  description: "Voc\xEA encontra a cantina da escola em confus\xE3o"
+  dialogueId: Q8
+  description: "Voc\xEA chega \xE0 cantina e se depara com uma verdadeira bagun\xE7a."
   optionA: "Pedir para os colegas pararem e explicar que \xE9 errado"
   optionB: "Ignorar a confus\xE3o"
   optionC: Jogar comida

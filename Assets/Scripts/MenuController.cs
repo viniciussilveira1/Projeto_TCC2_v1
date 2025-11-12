@@ -6,19 +6,26 @@ public class MenuController : MonoBehaviour
 
     void Start()
     {
-        menuCanvas.SetActive(false);
+        if (menuCanvas != null)
+            menuCanvas.SetActive(false);
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            var dm = DialogueManager.Instance;
+
+            if (dm != null && dm.IsOpen)
+                return;
+
             ToggleMenu();
         }
     }
 
     public void ToggleMenu()
     {
+        if (!menuCanvas) return;
         menuCanvas.SetActive(!menuCanvas.activeSelf);
     }
 }

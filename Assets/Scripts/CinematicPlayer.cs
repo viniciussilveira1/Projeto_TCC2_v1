@@ -101,36 +101,29 @@ public class CinematicPlayer : MonoBehaviour
 
             if (captionText != null)
             {
-                // começa vazio para o typewriter preencher logo em seguida
                 captionText.text = string.Empty;
             }
         }
         else
         {
-            // se não há slides, limpa de qualquer jeito
             if (slideImage != null) slideImage.sprite = null;
             if (captionText != null) captionText.text = string.Empty;
         }
 
-        // --- Ativa o panel SÓ AGORA ---
         if (rootGroup != null && !rootGroup.gameObject.activeSelf)
             rootGroup.gameObject.SetActive(true);
 
-        // garante alphas iniciais corretos para o fade
         if (fader != null) fader.alpha = 1f;
         if (rootGroup != null) rootGroup.alpha = 0f;
 
-        // forçar update de canvas/layout para o Unity aplicar mudanças antes do fade
         Canvas.ForceUpdateCanvases();
 
         // Pequeno yield para deixar o Unity processar um frame (reduz flash)
         yield return null;
 
-        // Agora executa os fades já com o conteúdo preparado
         if (fader != null) yield return FadeCanvasGroup(fader, 1f, 0f, 0.5f);
         if (rootGroup != null) yield return FadeCanvasGroup(rootGroup, 0f, 1f, 0.3f);
 
-        // --- segue normalmente com a rotina de slides (igual ao seu original) ---
         for (int i = 0; i < slides.Count; i++)
         {
             _skipSlide = false;

@@ -14,15 +14,13 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private GameObject panel;
     [SerializeField] private TMP_Text descriptionText;
     [SerializeField] private Button[] optionButtons = new Button[3];
-    [SerializeField] private Button btnRepeat; // 🔊 botão "falar novamente"
+    [SerializeField] private Button btnRepeat; 
 
     private NPCDialogue currentNPC;
     private AnswerType[] buttonMap = new AnswerType[3];
 
     // Player / controle (opcional para garantir)
-    private PlayerInput playerInput;
     private PlayerMovement playerMovement;
-    private Rigidbody2D playerRb;
 
     // Controle de opções
     private bool optionsLocked = false;        // só bloqueia na 1ª leitura
@@ -34,6 +32,7 @@ public class DialogueManager : MonoBehaviour
     public bool OptionsLocked => optionsLocked;
 
     private enum AnswerType { Correct = 0, Neutral = 1, Wrong = 2 }
+    public bool IsOpen => panel != null && panel.activeInHierarchy;
 
     private void Awake()
     {
@@ -62,9 +61,7 @@ public class DialogueManager : MonoBehaviour
         var player = GameObject.FindWithTag("Player");
         if (player)
         {
-            playerInput    = player.GetComponent<PlayerInput>();
             playerMovement = player.GetComponent<PlayerMovement>();
-            playerRb       = player.GetComponent<Rigidbody2D>();
         }
     }
 
@@ -133,7 +130,6 @@ public class DialogueManager : MonoBehaviour
 
         panel.SetActive(true);
 
-        // 🧊 Congela o jogo inteiro
         FreezeGame(true);
 
         // Primeira leitura: bloqueia respostas e repetir
@@ -152,18 +148,21 @@ public class DialogueManager : MonoBehaviour
 
     private IEnumerator UnlockAfterFirstDescription()
     {
-        // Espera enquanto descrição está sendo lida (usa tempo real, indep. do timeScale)
         while (RtVoiceService.I != null && RtVoiceService.I.IsDescriptionSpeaking())
-            yield return null;
+        {
+            if (AudioListener.volume <= 0f)
+            {
+                RtVoiceService.I.StopSpeaking();
+                break;
+            }
 
-        // Pequeno atraso
+            yield return null;
+        }
+
         yield return new WaitForSecondsRealtime(0.2f);
 
-        // Libera respostas
         optionsLocked = false;
         SetOptionsInteractable(true);
-
-        // Libera botão repetir
         if (btnRepeat) btnRepeat.interactable = true;
 
         routine = null;
@@ -183,7 +182,6 @@ public class DialogueManager : MonoBehaviour
 
     private void OnOptionClicked(int index)
     {
-        // Durante 1ª leitura: ignorar clique
         if (optionsLocked)
         {
             Debug.Log("[DialogueManager] Clique ignorado: opções bloqueadas na 1ª leitura.");
@@ -199,7 +197,6 @@ public class DialogueManager : MonoBehaviour
         int safeIndex = Mathf.Clamp(index, 0, buttonMap.Length - 1);
         var type = buttonMap[safeIndex];
 
-        // Eventos por tipo
         switch (type)
         {
             case AnswerType.Correct:
@@ -213,12 +210,22 @@ public class DialogueManager : MonoBehaviour
                 break;
         }
 
-        // Marca resolvido
+        string choiceTypeStr = type switch
+        {
+            AnswerType.Correct => "correct",
+            AnswerType.Neutral => "neutral",
+            _                  => "wrong"
+        };
+
+        if (!string.IsNullOrEmpty(currentNPC.dialogueId))
+        {
+            AssessmentTracker.Instance?.RegisterAnswer(currentNPC.dialogueId, choiceTypeStr);
+        }
+
         currentNPC.MarkResolved();
         SessionProgress.MarkResolved(currentNPC.SituationId);
         InteractionDetector.Instance?.HideIfTarget(currentNPC.transform);
 
-        // Pontuação 0/1/2
         int scoreIndex = type switch
         {
             AnswerType.Correct => 0,
@@ -231,7 +238,6 @@ public class DialogueManager : MonoBehaviour
         Close();
     }
 
-    // 🔊 Repetir descrição (NÃO trava as respostas)
     private void OnRepeatClicked()
     {
         if (currentNPC == null || string.IsNullOrWhiteSpace(currentNPC.description))
@@ -242,7 +248,6 @@ public class DialogueManager : MonoBehaviour
         if (btnRepeat)
             btnRepeat.interactable = false;
 
-        // Não mexe em optionsLocked, jogador ainda pode clicar nas respostas
         RtVoiceService.I?.SpeakDescription(currentNPC.description);
 
         if (routine != null)
@@ -283,11 +288,9 @@ public class DialogueManager : MonoBehaviour
         if (btnRepeat)
             btnRepeat.interactable = false;
 
-        // Descongela o jogo
         FreezeGame(false);
     }
 
-    // 🧊 Congela/descongela o jogo inteiro
     private void FreezeGame(bool freeze)
     {
         if (freeze)
@@ -297,7 +300,6 @@ public class DialogueManager : MonoBehaviour
 
             Time.timeScale = 0f;
 
-            // Opcional: garantir que player não processe movimento customizado
             if (playerMovement) playerMovement.enabled = false;
         }
         else

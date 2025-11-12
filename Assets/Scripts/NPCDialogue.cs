@@ -5,6 +5,9 @@ using System;
 [DisallowMultipleComponent]
 public class NPCDialogue : MonoBehaviour
 {
+    [Header("Identificação")]
+    public string dialogueId;
+
     [Header("Descrição/Contexto")]
     [TextArea(3, 6)] public string description;
 

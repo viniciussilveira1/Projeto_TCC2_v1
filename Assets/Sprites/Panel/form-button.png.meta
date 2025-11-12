@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: ad915166e93ef0c4386d3bc304985b27
+guid: f4d835be22d08af429b493ecb5038531
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6594178708961086051
-    second: ME_Singles_City_Props_16x16_Small_Closed_Trash_Can_0
+      213: 8478202518717011722
+    second: form-button_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -51,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 16
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -113,23 +113,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ME_Singles_City_Props_16x16_Small_Closed_Trash_Can_0
+      name: form-button_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 11
         y: 0
-        width: 16
-        height: 23
+        width: 1516
+        height: 1024
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d953ee2d665cc74a0800000000000000
-      internalID: -6594178708961086051
+      spriteID: a0713f57540a8a570800000000000000
+      internalID: 8478202518717011722
       vertices: []
       indices: 
       edges: []
@@ -138,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 9f70e9a695c7afc4ab5f6c20318fc1fa
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -146,11 +146,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries:
-      - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":16.0,"y":32.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+      entries: []
     nameFileIdTable:
-      ME_Singles_City_Props_16x16_Small_Closed_Trash_Can_0: -6594178708961086051
+      form-button_0: 8478202518717011722
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

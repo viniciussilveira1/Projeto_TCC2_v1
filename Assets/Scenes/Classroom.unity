@@ -650,8 +650,9 @@ GameObject:
   m_Component:
   - component: {fileID: 59085237}
   - component: {fileID: 59085236}
+  - component: {fileID: 59085238}
   m_Layer: 0
-  m_Name: strokespritesheet20124_2
+  m_Name: door1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -721,12 +722,71 @@ Transform:
   m_GameObject: {fileID: 59085235}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 8.17, y: -15.41494, z: 0}
+  m_LocalPosition: {x: 8.17, y: -15.49, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 693244349}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!60 &59085238
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 59085235}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.15625, y: 5.84375}
+    newSize: {x: 2.15625, y: 5.84375}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 1.0107803, y: 1.8588815}
+      - {x: -0.76008224, y: 2.9024925}
+      - {x: -0.86372757, y: 2.8685732}
+      - {x: -0.9860573, y: 2.7673082}
+      - {x: -0.98151016, y: -0.5912595}
+      - {x: -0.9854317, y: -1.8412595}
+      - {x: -0.87960434, y: -1.9048166}
+      - {x: -0.34231567, y: -2.2052398}
+      - {x: 0.71414566, y: -2.8554513}
+      - {x: 0.916893, y: -2.9097977}
+      - {x: 1.0539703, y: -2.8231437}
+      - {x: 1.0538979, y: 1.8135881}
+  m_UseDelaunayMesh: 0
 --- !u!1 &78525507
 GameObject:
   m_ObjectHideFlags: 0
@@ -1007,8 +1067,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1053849219
-  m_SortingLayer: 5
+  m_SortingLayerID: 592989773
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 3240497540230750992, guid: ebcddf71726124946acc63c6417ea640, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1030,12 +1090,11 @@ Transform:
   m_GameObject: {fileID: 93830916}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -16.22034, y: 2.8084598, z: 0}
+  m_LocalPosition: {x: -63.54966, y: 9.39154, z: 0}
   m_LocalScale: {x: 0.75, y: 0.75, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 782029041}
-  m_Father: {fileID: 1296744336}
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &93830920
 MonoBehaviour:
@@ -1255,7 +1314,7 @@ GameObject:
   - component: {fileID: 151714836}
   - component: {fileID: 151714835}
   m_Layer: 0
-  m_Name: 3941-saida-a-direita_0
+  m_Name: leave-sign
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1324,12 +1383,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 151714834}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -44.85, y: 28.28, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 12.513931, y: 10.275061, z: 0}
   m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 693244349}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &152472590
 GameObject:
@@ -3662,6 +3721,7 @@ Transform:
   - {fileID: 1383031928}
   - {fileID: 59085237}
   - {fileID: 15725115}
+  - {fileID: 151714836}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &710942998
@@ -3915,7 +3975,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 594203925873067707, guid: 1754d1630040a514a837967954f1ad6d, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 159.993
+      value: 137.36
       objectReference: {fileID: 0}
     - target: {fileID: 594203925873067707, guid: 1754d1630040a514a837967954f1ad6d, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -3923,7 +3983,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 594203925873067707, guid: 1754d1630040a514a837967954f1ad6d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 129.354
+      value: 127.18
       objectReference: {fileID: 0}
     - target: {fileID: 1441402857241408024, guid: 1754d1630040a514a837967954f1ad6d, type: 3}
       propertyPath: m_SizeDelta.x
@@ -4085,6 +4145,22 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 2.8478
       objectReference: {fileID: 0}
+    - target: {fileID: 4628138321782522509, guid: 1754d1630040a514a837967954f1ad6d, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 4628138321782522509, guid: 1754d1630040a514a837967954f1ad6d, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 4628138321782522509, guid: 1754d1630040a514a837967954f1ad6d, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 625.61
+      objectReference: {fileID: 0}
+    - target: {fileID: 4628138321782522509, guid: 1754d1630040a514a837967954f1ad6d, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 96
+      objectReference: {fileID: 0}
     - target: {fileID: 4903647473115125869, guid: 1754d1630040a514a837967954f1ad6d, type: 3}
       propertyPath: m_fontSize
       value: 72
@@ -4212,6 +4288,10 @@ PrefabInstance:
     - target: {fileID: 8678992226217751283, guid: 1754d1630040a514a837967954f1ad6d, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0.00014305
+      objectReference: {fileID: 0}
+    - target: {fileID: 9034752917251523295, guid: 1754d1630040a514a837967954f1ad6d, type: 3}
+      propertyPath: m_text
+      value: New text
       objectReference: {fileID: 0}
     - target: {fileID: 9034752917251523295, guid: 1754d1630040a514a837967954f1ad6d, type: 3}
       propertyPath: m_fontSize
@@ -4948,11 +5028,11 @@ Transform:
   m_GameObject: {fileID: 782029040}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.3892517, y: -0.83399963, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -13.97966, y: 2.2315407, z: 0}
+  m_LocalScale: {x: 0.75, y: 0.75, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 93830919}
+  m_Father: {fileID: 1296744336}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &782029042
 SpriteRenderer:
@@ -4997,7 +5077,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 592989773
   m_SortingLayer: 3
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -6984371895107162408, guid: 5a98c006824545e42823a8214a5dc785, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -5310,7 +5390,7 @@ Transform:
   m_GameObject: {fileID: 848883237}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -13.466072, y: 5.625059, z: 0}
+  m_LocalPosition: {x: 5.74, y: 2.35, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7041,7 +7121,7 @@ Transform:
   m_GameObject: {fileID: 1270111967}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -16.04, y: 2.91, z: 0}
+  m_LocalPosition: {x: -13.469658, y: 3.0415401, z: 0}
   m_LocalScale: {x: 0.075, y: 0.075, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7134,9 +7214,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1742848725
-  m_SortingLayer: 6
-  m_SortingOrder: 1
+  m_SortingLayerID: 592989773
+  m_SortingLayer: 3
+  m_SortingOrder: 2
   m_Sprite: {fileID: 7649362327723631573, guid: 2d990585fbd22274b97f71cecf916a70, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -7330,8 +7410,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cdd236328e87aa48bbbe0cfac38ac77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dialogueId: Q6
   description: "Voc\xEA encontra uma colega triste e isolada na sala durante o recreio,
-    sentada em sil\xEAncio e olhando para o ch\xE3o"
+    sentada em sil\xEAncio e olhando para o ch\xE3o."
   optionA: Se aproximar e conversar, convidando para o recreio
   optionB: Ignorar
   optionC: "Fazer piada ou coment\xE1rio maldoso"
@@ -7413,12 +7494,12 @@ Transform:
   m_GameObject: {fileID: 1296744333}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -47.29966, y: 6.55154, z: 0}
+  m_LocalPosition: {x: -56.96, y: 21.35, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1270111968}
-  - {fileID: 93830919}
+  - {fileID: 782029041}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1323565512
@@ -7905,8 +7986,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1383031928}
   - component: {fileID: 1383031927}
+  - component: {fileID: 1383031929}
   m_Layer: 0
-  m_Name: strokespritesheet20122 - Copia - Copia_2
+  m_Name: door2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7982,6 +8064,60 @@ Transform:
   m_Children: []
   m_Father: {fileID: 693244349}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!60 &1383031929
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1383031926}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.25, y: 6}
+    newSize: {x: 2.25, y: 6}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.49946976, y: 2.842339}
+      - {x: -1.0669136, y: 1.8472848}
+      - {x: -1.0853767, y: -2.8573587}
+      - {x: -0.79589844, y: -2.91283}
+      - {x: 0.982357, y: -1.8105664}
+      - {x: 0.98062134, y: 2.79326}
+      - {x: 0.80138016, y: 2.9419146}
+  m_UseDelaunayMesh: 0
 --- !u!1 &1430018519
 GameObject:
   m_ObjectHideFlags: 0
@@ -8529,8 +8665,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cdd236328e87aa48bbbe0cfac38ac77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  description: "Voc\xEA percebe que um colega carrega uma garrafa de alcool dentro
-    da mochila"
+  dialogueId: Q7
+  description: "Voc\xEA percebe que um colega carrega uma garrafa de \xE1lcool dentro
+    da mochila."
   optionA: Avisar um professor imediatamente
   optionB: Ignorar e continuar seu caminho
   optionC: "Fingir que n\xE3o viu e ainda fazer um sinal de apoio ao colega"
@@ -66442,7 +66579,7 @@ SceneRoots:
   - {fileID: 304212645}
   - {fileID: 732118145}
   - {fileID: 1439042027}
+  - {fileID: 93830919}
   - {fileID: 1296744336}
   - {fileID: 1507604698}
   - {fileID: 108626754}
-  - {fileID: 151714836}

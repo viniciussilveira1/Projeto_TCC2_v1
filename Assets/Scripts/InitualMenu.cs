@@ -5,7 +5,7 @@ public class InitualMenu : MonoBehaviour
 {
     public void Jogar()
     {
-        SceneManager.LoadScene("Intro");
+        SceneManager.LoadScene("FormScene");
     }
 
     public void Sair()

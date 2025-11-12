@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.SceneManagement;
 
 public class GameOverManager : MonoBehaviour
 {
@@ -55,7 +54,7 @@ public class GameOverManager : MonoBehaviour
             var sc = SituationCounter.Instance;
 
             var finalResult = "";
-             
+
             if (sc.Score >= 90 && sc.Score <= 100)
             {
                 finalResult = "Parabéns, você arrasou! Suas Escolhas foram Super Certas e mostraram que você é um verdadeiro cidadão nota 10! O mundo precisa de pessoas como você, que espalham o bem por onde passam!";
@@ -66,13 +65,25 @@ public class GameOverManager : MonoBehaviour
             }
             else if (sc.Score >= 0 && sc.Score <= 40)
             {
-                finalResult = "Parece que você não tem feito Escolhas Certas. Suas decisões não foram muito legais. Mas não tem problema! Tente outra vez! Todo mundo pode aprender. Tente outra vez e mostre que você também sabe fazer o certo.";
-            }
-            resultText.text =
-                $"{finalResult}";
+                finalResult = "Parece que você não tem feito Escolhas Certas. Suas decisões não foram muito legais. Mas não tem problema! Todo mundo pode aprender. Tente outra vez e mostre que você também sabe fazer o certo.";
             }
 
-        if (gameOverPanel != null) gameOverPanel.SetActive(true);
+            resultText.text = finalResult;
+            RtVoiceService.I?.SpeakDescription(finalResult);
+        }
+
+        if (gameOverPanel != null)
+            gameOverPanel.SetActive(true);
+
+        if (GameDataSender.Instance != null)
+        {
+            StartCoroutine(GameDataSender.Instance.SendAssessment());
+        }
+        else
+        {
+            Debug.LogWarning("[GameOverManager] GameDataSender não encontrado na cena.");
+        }
+
         Time.timeScale = 0f;
     }
 
@@ -80,14 +91,13 @@ public class GameOverManager : MonoBehaviour
     {
         Time.timeScale = 1f;
 
-        // Reinicia sistemas do jogo
         SituationCounter.Instance?.ResetAll();
         SessionProgress.ResetAll();
+        AssessmentTracker.Instance?.ResetAll();
 
         DialogueManager.Instance?.gameObject.SetActive(true);
         RtVoiceService.I?.StopSpeaking();
 
-        // Recarrega a cena inicial do jogo
         Portal.Travel(firstSceneName);
     }
 
@@ -95,21 +105,18 @@ public class GameOverManager : MonoBehaviour
     {
         Time.timeScale = 1f;
 
-        // Limpa progressos e sistemas
         SituationCounter.Instance?.ResetAll();
         SessionProgress.ResetAll();
+        AssessmentTracker.Instance?.ResetAll();
         RtVoiceService.I?.StopSpeaking();
 
-        // Destroi o player persistente (que tem DontDestroyOnLoad)
         var player = FindAnyObjectByType<PlayerMovement>(FindObjectsInactive.Include);
         if (player != null)
             Destroy(player.gameObject);
 
-        // Destroi também o DialogueManager se ele for persistente
         if (DialogueManager.Instance != null)
             Destroy(DialogueManager.Instance.gameObject);
 
-        // Vai pro menu principal
         Portal.Travel("MainMenu");
     }
 }
