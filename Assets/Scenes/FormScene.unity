@@ -2898,7 +2898,7 @@ MonoBehaviour:
     - m_Text: "EBD Abel \xC1vila Santos"
       m_Image: {fileID: 0}
       m_Color: {r: 1, g: 1, b: 1, a: 1}
-    - m_Text: 'Escola Municipal T. Coronel Amaro M Vasconcelo '
+    - m_Text: Escola Municipal T. Coronel Amaro M Vasconcelo
       m_Image: {fileID: 0}
       m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_OnValueChanged:

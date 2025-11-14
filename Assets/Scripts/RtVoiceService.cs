@@ -1,4 +1,3 @@
-// RtVoiceService.cs
 using UnityEngine;
 using Crosstales.RTVoice;
 using System.Collections;
@@ -28,6 +27,9 @@ public class RtVoiceService : MonoBehaviour
     private float muteUntilTime;
     private bool descriptionSpeaking;
     private bool isMuted;
+    private Voice voicePtBr; 
+    public bool HasVoice => useTTS && voicePtBr != null;
+
     private void Awake()
     {
         if (I != null && I != this) { Destroy(gameObject); return; }
@@ -38,17 +40,15 @@ public class RtVoiceService : MonoBehaviour
         audioSource.playOnAwake = false;
         if (mixerGroup && audioSource) audioSource.outputAudioMixerGroup = mixerGroup;
 
-        // Eventos RTVoice
         if (Speaker.Instance != null)
         {
             Speaker.Instance.OnVoicesReady += InitVoz;
             Speaker.Instance.OnSpeakStart += OnSpeakStart;
             Speaker.Instance.OnSpeakComplete += OnSpeakEnd;
-        }
 
-        // Inicializa se já houver vozes carregadas
-        if (Speaker.Instance != null && Speaker.Instance.Voices != null && Speaker.Instance.Voices.Count > 0)
-            InitVoz();
+            if (Speaker.Instance.Voices != null && Speaker.Instance.Voices.Count > 0)
+                InitVoz();
+        }
 
         DontDestroyOnLoad(gameObject);
     }
@@ -63,36 +63,33 @@ public class RtVoiceService : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Inicializa TTS apenas se houver voz em português do Brasil (pt-BR).
-    /// </summary>
+    // Inicializa TTS apenas se houver voz em português do Brasil (pt-BR).
     private void InitVoz()
     {
+        useTTS = false;
+        voicePtBr = null;
+
         if (Speaker.Instance == null || Speaker.Instance.Voices == null || Speaker.Instance.Voices.Count == 0)
         {
             Debug.LogWarning("[RtVoiceService] Nenhuma voz disponível no Speaker.Instance.");
-            useTTS = false;
             return;
         }
 
-        var vozPtBr = Speaker.Instance.Voices.Find(v =>
+        voicePtBr = Speaker.Instance.Voices.Find(v =>
             !string.IsNullOrEmpty(v.Culture) &&
-            v.Culture.ToLower().StartsWith("pt-br")
+            v.Culture.StartsWith("pt-BR", System.StringComparison.OrdinalIgnoreCase)
         );
 
-        if (vozPtBr == null)
+        if (voicePtBr == null)
         {
             Debug.LogWarning("[RtVoiceService] Nenhuma voz pt-BR encontrada. TTS desativado.");
-            useTTS = false;
             return;
         }
 
-        Speaker.Instance.VoiceForCulture(vozPtBr.Culture);
         useTTS = true;
 
-        Debug.Log($"[RtVoiceService] Voz pt-BR selecionada: {vozPtBr.Name} ({vozPtBr.Culture})");
+        Debug.Log($"[RtVoiceService] Voz pt-BR selecionada: {voicePtBr.Name} ({voicePtBr.Culture})");
     }
-
 
     private void OnSpeakStart(Wrapper w)
     {
@@ -141,6 +138,7 @@ public class RtVoiceService : MonoBehaviour
         if (string.IsNullOrWhiteSpace(text)) return;
         if (Time.unscaledTime < muteUntilTime) return;
         if (ignoreWhileSpeaking && isSpeaking) return;
+
         Debug.Log($"[RtVoiceService] texto solicitado: {text}");
 
         if (pendingSpeak != null)
@@ -164,9 +162,9 @@ public class RtVoiceService : MonoBehaviour
             InitVoz();
         }
 
-        if (!useTTS)
+        if (!useTTS || voicePtBr == null)
         {
-            Debug.Log("[RtVoiceService] Nenhuma voz disponível — pulando TTS.");
+            Debug.Log("[RtVoiceService] TTS desativado ou sem voz pt-BR. Nada será narrado.");
             pendingSpeak = null;
             yield break;
         }
@@ -181,7 +179,7 @@ public class RtVoiceService : MonoBehaviour
         currentUid = Speaker.Instance.Speak(
             text: text,
             source: audioSource,
-            voice: null, // usa a voz padrão do Windows
+            voice: voicePtBr,
             speakImmediately: true,
             rate: rate,
             pitch: pitch,

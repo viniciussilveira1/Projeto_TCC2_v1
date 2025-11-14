@@ -7,8 +7,8 @@ public class MusicManager : MonoBehaviour
     public static MusicManager Instance { get; private set; }
 
     [Header("Configuração de Cenas")]
-    [SerializeField] private string firstPlayableSceneName = "FrontSchool"; 
-    [SerializeField] private string[] playableScenes; // SOMENTE cenas onde pode tocar música
+    [SerializeField] private string firstPlayableSceneName = "FrontSchool";
+    [SerializeField] private string[] playableScenes;
 
     [Header("Clipes de Áudio")]
     [SerializeField] private AudioClip introClip;
@@ -16,10 +16,10 @@ public class MusicManager : MonoBehaviour
 
     [Header("Volume e Fade")]
     [Range(0f, 1f)]
-    [SerializeField] private float musicVolume = 0.1f;   // volume alvo (ex: 10%)
-    [SerializeField] private float fadeInDuration = 2f;  // fade-in da intro
-    [SerializeField] private float introStartDelay = 0f; // delay antes da intro
-    [SerializeField] private float fadeOutDuration = 1f; // fade-out ao sair de cena jogável
+    [SerializeField] private float musicVolume = 0.1f;
+    [SerializeField] private float fadeInDuration = 2f;
+    [SerializeField] private float introStartDelay = 0f;
+    [SerializeField] private float fadeOutDuration = 1f;
 
     private AudioSource audioSource;
     private bool introPlayed = false;
@@ -48,32 +48,40 @@ public class MusicManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (Instance == this)
-            SceneManager.sceneLoaded -= OnSceneLoaded;
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         string sceneName = scene.name;
 
-        // 1) Se NÃO é cena jogável -> garante fade-out/stop e não toca nada
+        // Não é cena jogável: fade-out e para
         if (!IsPlayableScene(sceneName))
         {
             if (audioSource.isPlaying)
                 StartFadeOutAndStop();
+
             return;
         }
 
-        // 2) É cena jogável
+        // Cena jogável
 
-        // Primeira entrada na cena jogável definida para intro
+        // Se voltamos para a primeira cena jogável e a música está parada,
+        // trata como "novo jogo": libera a intro de novo.
+        if (sceneName == firstPlayableSceneName && !audioSource.isPlaying)
+        {
+            introPlayed = false;
+            loopStarted = false;
+        }
+
+        // Primeira vez (ou "novo jogo"): intro + loop
         if (!introPlayed && sceneName == firstPlayableSceneName)
         {
             StartCoroutine(PlayIntroThenLoop());
             return;
         }
 
-        // Já tocou intro: garante loop nas jogáveis
+        // Intro já tocou: garante loop nas jogáveis
         if (introPlayed)
         {
             EnsureLoopPlaying();
@@ -83,7 +91,7 @@ public class MusicManager : MonoBehaviour
     private bool IsPlayableScene(string sceneName)
     {
         if (playableScenes == null || playableScenes.Length == 0)
-            return false; // sem lista = não toca em lugar nenhum (te obriga a configurar direito)
+            return false;
 
         for (int i = 0; i < playableScenes.Length; i++)
         {

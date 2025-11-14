@@ -1,4 +1,3 @@
-// PlayerMovement.cs
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -13,17 +12,15 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody2D rb;
     private Vector2 moveInput;
-    private Vector2 lastNonZeroDir = Vector2.down; // idle “virado” correto
+    private Vector2 lastNonZeroDir = Vector2.down;
     private Animator animator;
-
     private static PlayerMovement instance;
 
     void Awake()
     {
-        // singleton + persistência
         if (instance != null && instance != this) { Destroy(gameObject); return; }
         instance = this;
-        // garanta que este GameObject é root na Hierarchy ao chamar:
+
         DontDestroyOnLoad(gameObject);
     }
 
@@ -55,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (walking)
         {
-            lastNonZeroDir = moveInput; // guarda última direção válida
+            lastNonZeroDir = moveInput;
         }
 
         animator.SetBool("isWalking", walking);
@@ -74,7 +71,6 @@ public class PlayerMovement : MonoBehaviour
     {
         string id = string.IsNullOrEmpty(PendingSpawnId) ? fallbackSpawnId : PendingSpawnId;
 
-        // pega spawn points inclusive inativos
 #if UNITY_2023_1_OR_NEWER
         var spawns = Object.FindObjectsByType<SpawnPoint>(FindObjectsInactive.Include, FindObjectsSortMode.None);
 #else

@@ -1,11 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.InputSystem;
 using System.Collections;
 using System.Collections.Generic;
 
-[DefaultExecutionOrder(-50)]
 public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager Instance { get; private set; }
@@ -14,7 +12,7 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private GameObject panel;
     [SerializeField] private TMP_Text descriptionText;
     [SerializeField] private Button[] optionButtons = new Button[3];
-    [SerializeField] private Button btnRepeat; 
+    [SerializeField] private Button btnRepeat;
 
     private NPCDialogue currentNPC;
     private AnswerType[] buttonMap = new AnswerType[3];
@@ -92,7 +90,6 @@ public class DialogueManager : MonoBehaviour
         if (descriptionText)
             descriptionText.text = npc.description;
 
-        // Monta as opções com tipo real
         var slots = new List<(string text, AnswerType type)>
         {
             (npc.optionA, AnswerType.Correct),
@@ -100,7 +97,7 @@ public class DialogueManager : MonoBehaviour
             (npc.optionC, AnswerType.Wrong)
         };
 
-        // Embaralha (Fisher–Yates)
+        // Embaralha
         for (int i = slots.Count - 1; i > 0; i--)
         {
             int j = UnityEngine.Random.Range(0, i + 1);
@@ -129,7 +126,6 @@ public class DialogueManager : MonoBehaviour
         }
 
         panel.SetActive(true);
-
         FreezeGame(true);
 
         // Primeira leitura: bloqueia respostas e repetir
@@ -137,22 +133,49 @@ public class DialogueManager : MonoBehaviour
         SetOptionsInteractable(false);
         if (btnRepeat) btnRepeat.interactable = false;
 
-        // Fala descrição
-        RtVoiceService.I?.SpeakDescription(npc.description);
+        var tts = RtVoiceService.I;
 
-        // Libera depois que terminar
-        if (routine != null)
-            StopCoroutine(routine);
-        routine = StartCoroutine(UnlockAfterFirstDescription());
+        if (tts != null && tts.HasVoice)
+        {
+            // Tem TTS pt-BR: fala e só depois libera
+            tts.SpeakDescription(npc.description);
+
+            if (routine != null)
+                StopCoroutine(routine);
+            routine = StartCoroutine(UnlockAfterFirstDescription());
+        }
+        else
+        {
+            // Sem TTS: NÃO espera nada, libera imediatamente
+            Debug.Log("[DialogueManager] Sem TTS disponível — liberando opções imediatamente.");
+
+            optionsLocked = false;
+            SetOptionsInteractable(true);
+
+            // Sem TTS, repetir não faz sentido
+            if (btnRepeat) btnRepeat.interactable = false;
+        }
     }
 
     private IEnumerator UnlockAfterFirstDescription()
     {
-        while (RtVoiceService.I != null && RtVoiceService.I.IsDescriptionSpeaking())
+        var tts = RtVoiceService.I;
+
+        // Se por algum motivo TTS sumiu no meio do caminho, apenas libera
+        if (tts == null || !tts.HasVoice)
+        {
+            optionsLocked = false;
+            SetOptionsInteractable(true);
+            if (btnRepeat) btnRepeat.interactable = false;
+            routine = null;
+            yield break;
+        }
+
+        while (tts.IsDescriptionSpeaking())
         {
             if (AudioListener.volume <= 0f)
             {
-                RtVoiceService.I.StopSpeaking();
+                tts.StopSpeaking();
                 break;
             }
 
@@ -243,12 +266,19 @@ public class DialogueManager : MonoBehaviour
         if (currentNPC == null || string.IsNullOrWhiteSpace(currentNPC.description))
             return;
 
+        var tts = RtVoiceService.I;
+        if (tts == null || !tts.HasVoice)
+        {
+            Debug.Log("[DialogueManager] Botão repetir clicado, mas não há TTS disponível.");
+            return;
+        }
+
         Debug.Log("[DialogueManager] Repetindo descrição...");
 
         if (btnRepeat)
             btnRepeat.interactable = false;
 
-        RtVoiceService.I?.SpeakDescription(currentNPC.description);
+        tts.SpeakDescription(currentNPC.description);
 
         if (routine != null)
             StopCoroutine(routine);
@@ -257,7 +287,15 @@ public class DialogueManager : MonoBehaviour
 
     private IEnumerator ReenableRepeatAfterSpeak()
     {
-        while (RtVoiceService.I != null && RtVoiceService.I.IsDescriptionSpeaking())
+        var tts = RtVoiceService.I;
+
+        if (tts == null || !tts.HasVoice)
+        {
+            routine = null;
+            yield break;
+        }
+
+        while (tts.IsDescriptionSpeaking())
             yield return null;
 
         yield return new WaitForSecondsRealtime(0.1f);

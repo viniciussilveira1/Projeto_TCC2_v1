@@ -8,14 +8,14 @@ public class TipsManager : MonoBehaviour
     [SerializeField] private Canvas tipsCanvas; // Canvas das dicas (pode estar desativado)
     [SerializeField] private Button playButton; // Botão "Jogar"
 
-    private static bool tipsShown = false; // Mantém o estado entre reinícios da cena
+    // AGORA NÃO É MAIS STATIC
+    private bool tipsShown = false;
     private bool isPaused = false;
 
     void Start()
     {
         if (tipsShown)
         {
-            // Já foi mostrado uma vez — garante que fique oculto
             if (tipsCanvas) tipsCanvas.gameObject.SetActive(false);
             return;
         }
@@ -33,7 +33,10 @@ public class TipsManager : MonoBehaviour
         AudioListener.pause = true;
 
         if (playButton != null)
+        {
+            playButton.onClick.RemoveAllListeners();
             playButton.onClick.AddListener(OnPlayClicked);
+        }
     }
 
     private void OnPlayClicked()
@@ -50,10 +53,9 @@ public class TipsManager : MonoBehaviour
         isPaused = false;
         AudioListener.pause = false;
 
-        tipsShown = true; // marca como já mostrado
+        tipsShown = true; // marca como já mostrado nesta instância
     }
 
-    // (Opcional) Se quiser limpar ao trocar de cena:
     void OnDestroy()
     {
         if (isPaused)
