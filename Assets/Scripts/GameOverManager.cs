@@ -98,6 +98,8 @@ public class GameOverManager : MonoBehaviour
         DialogueManager.Instance?.gameObject.SetActive(true);
         RtVoiceService.I?.StopSpeaking();
 
+        TipsManager.ResetTips();
+
         Portal.Travel(firstSceneName);
     }
 
@@ -116,6 +118,8 @@ public class GameOverManager : MonoBehaviour
 
         if (DialogueManager.Instance != null)
             Destroy(DialogueManager.Instance.gameObject);
+
+        TipsManager.ResetTips();
 
         Portal.Travel("MainMenu");
     }

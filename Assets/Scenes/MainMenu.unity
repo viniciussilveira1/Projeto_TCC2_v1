@@ -486,9 +486,9 @@ MonoBehaviour:
   - Backyard
   introClip: {fileID: 8300000, guid: 1318210e4dae0bd4f9a23e8b9cf43d3d, type: 3}
   loopClip: {fileID: 8300000, guid: f1564933ca43c6642b01c481e67f232b, type: 3}
-  musicVolume: 0.1
-  fadeInDuration: 3
-  introStartDelay: 2
+  musicVolume: 0.3
+  fadeInDuration: 5
+  introStartDelay: 3
   fadeOutDuration: 1
 --- !u!4 &776981419
 Transform:

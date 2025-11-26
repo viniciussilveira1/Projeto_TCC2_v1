@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class TipsManager : MonoBehaviour
 {
@@ -8,13 +7,14 @@ public class TipsManager : MonoBehaviour
     [SerializeField] private Canvas tipsCanvas; // Canvas das dicas (pode estar desativado)
     [SerializeField] private Button playButton; // Botão "Jogar"
 
-    // AGORA NÃO É MAIS STATIC
-    private bool tipsShown = false;
+    private static bool tipsShownGlobal = false;
+
     private bool isPaused = false;
 
     void Start()
     {
-        if (tipsShown)
+        // Se já mostramos em algum momento desta execução do jogo, não mostra de novo
+        if (tipsShownGlobal)
         {
             if (tipsCanvas) tipsCanvas.gameObject.SetActive(false);
             return;
@@ -53,7 +53,7 @@ public class TipsManager : MonoBehaviour
         isPaused = false;
         AudioListener.pause = false;
 
-        tipsShown = true; // marca como já mostrado nesta instância
+        tipsShownGlobal = true;
     }
 
     void OnDestroy()
@@ -63,5 +63,10 @@ public class TipsManager : MonoBehaviour
             Time.timeScale = 1f;
             AudioListener.pause = false;
         }
+    }
+
+    public static void ResetTips()
+    {
+        tipsShownGlobal = false;
     }
 }

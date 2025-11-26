@@ -1,20 +1,30 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class InitualMenu : MonoBehaviour
 {
+    public GameObject quitButton;
+
+    void Start()
+    {
+#if UNITY_WEBGL
+        if (quitButton != null)
+            quitButton.SetActive(false);
+#endif
+    }
+
     public void Jogar()
     {
-        SceneManager.LoadScene("FormScene");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("FormScene");
     }
 
     public void Sair()
     {
 #if UNITY_EDITOR
-        // Fecha o modo Play no Editor
         UnityEditor.EditorApplication.isPlaying = false;
+#elif UNITY_WEBGL
+        // Não faz nada porque não existe "sair" no navegador
+        Debug.Log("Sair não é suportado no Web.");
 #else
-        // Fecha o jogo compilado
         Application.Quit();
 #endif
     }

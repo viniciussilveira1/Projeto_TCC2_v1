@@ -16,7 +16,7 @@ public class MusicManager : MonoBehaviour
 
     [Header("Volume e Fade")]
     [Range(0f, 1f)]
-    [SerializeField] private float musicVolume = 0.1f;
+    [SerializeField] private float musicVolume = 0.3f;
     [SerializeField] private float fadeInDuration = 2f;
     [SerializeField] private float introStartDelay = 0f;
     [SerializeField] private float fadeOutDuration = 1f;

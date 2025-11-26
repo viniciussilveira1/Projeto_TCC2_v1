@@ -14,9 +14,6 @@ public class CinematicPlayer : MonoBehaviour
 
         [TextArea(2, 5)]
         public string caption;
-
-        [Range(0.5f, 10f)]
-        public float holdSeconds = 2.5f;
     }
 
     [Header("UI (arraste no Inspector)")]
@@ -37,9 +34,8 @@ public class CinematicPlayer : MonoBehaviour
     [SerializeField] private string nextSceneName = "";
     [SerializeField] private bool allowSkip = true;
     [SerializeField] private KeyCode skipKey = KeyCode.Space;
-    [SerializeField] private float holdSkipDuration = 2f; // tempo segurando para pular toda a cinematics
+    [SerializeField] private float holdSkipDuration = 2f; // segurar para pular toda a cinematic
 
-    private bool _skipSlide;
     private float _skipHoldTime;
 
     private void Awake()
@@ -50,8 +46,6 @@ public class CinematicPlayer : MonoBehaviour
 
     private void Start()
     {
-        // NÃO ative o panel aqui (evita o flash inicial)
-        // Apenas inicia a coroutine (ela fará a ativação no momento correto).
         if (autoPlayOnStart)
             StartCoroutine(PlayRoutine());
     }
@@ -66,16 +60,9 @@ public class CinematicPlayer : MonoBehaviour
 
             if (_skipHoldTime >= holdSkipDuration)
             {
-                // segura tempo suficiente → pular toda a cinematics
                 StopAllCoroutines();
                 StartCoroutine(FinishCinematic());
             }
-        }
-        else if (Input.GetKeyUp(skipKey))
-        {
-            // liberou a tecla antes do tempo → pular apenas o slide
-            _skipSlide = true;
-            _skipHoldTime = 0f;
         }
         else
         {
@@ -85,17 +72,14 @@ public class CinematicPlayer : MonoBehaviour
 
     private IEnumerator PlayRoutine()
     {
-        // --- Pré-configura o primeiro slide para evitar "New Text" aparecendo ---
+        // Pré-configuração para não aparecer "New Text"
         if (slides != null && slides.Count > 0)
         {
-            // Preenche a imagem e limpa o texto antes de ativar o panel
             if (slideImage != null)
             {
                 slideImage.sprite = slides[0].image;
                 slideImage.preserveAspect = true;
-                // garante que o componente de imagem esteja visível
                 slideImage.enabled = true;
-                // caso a imagem esteja transparente, força opacidade
                 slideImage.color = new Color(1f, 1f, 1f, 1f);
             }
 
@@ -117,8 +101,6 @@ public class CinematicPlayer : MonoBehaviour
         if (rootGroup != null) rootGroup.alpha = 0f;
 
         Canvas.ForceUpdateCanvases();
-
-        // Pequeno yield para deixar o Unity processar um frame (reduz flash)
         yield return null;
 
         if (fader != null) yield return FadeCanvasGroup(fader, 1f, 0f, 0.5f);
@@ -126,7 +108,6 @@ public class CinematicPlayer : MonoBehaviour
 
         for (int i = 0; i < slides.Count; i++)
         {
-            _skipSlide = false;
             RtVoiceService.I?.StopSpeaking();
 
             if (slideImage != null)
@@ -135,14 +116,15 @@ public class CinematicPlayer : MonoBehaviour
                 FitImageToRect(slideImage, slides[i].image);
             }
 
+            // 1) Mostra a legenda com efeito e deixa o espaço completar o texto
             yield return ShowCaption(slides[i].caption);
 
-            float t = 0f;
-            while (t < slides[i].holdSeconds && !_skipSlide)
-            {
-                t += Time.deltaTime;
-                yield return null;
-            }
+            // garante texto completo ao final
+            if (captionText != null)
+                captionText.text = slides[i].caption;
+
+            // 2) Espera o jogador apertar ESPAÇO para ir para o próximo slide
+            yield return WaitForSpaceToAdvance();
 
             RtVoiceService.I?.StopSpeaking();
 
@@ -155,6 +137,7 @@ public class CinematicPlayer : MonoBehaviour
 
         yield return FinishCinematic();
     }
+
     private IEnumerator ShowCaption(string text)
     {
         if (captionText != null) captionText.text = string.Empty;
@@ -166,8 +149,16 @@ public class CinematicPlayer : MonoBehaviour
 
         float acc = 0f;
         int idx = 0;
-        while (idx < text.Length && !_skipSlide)
+
+        while (idx < text.Length)
         {
+            // se apertar espaço durante a digitação → mostra tudo
+            if (Input.GetKeyDown(skipKey))
+            {
+                if (captionText != null) captionText.text = text;
+                break;
+            }
+
             acc += Time.deltaTime * typewriterSpeed;
             int next = Mathf.Clamp(Mathf.FloorToInt(acc), 0, text.Length);
             if (next != idx)
@@ -178,8 +169,22 @@ public class CinematicPlayer : MonoBehaviour
             yield return null;
         }
 
-        if (_skipSlide && captionText != null)
+        if (captionText != null)
             captionText.text = text;
+    }
+
+    private IEnumerator WaitForSpaceToAdvance()
+    {
+        // espera um novo pressionar de espaço (GetKeyDown)
+        bool pressed = false;
+        while (!pressed)
+        {
+            if (Input.GetKeyDown(skipKey))
+            {
+                pressed = true;
+            }
+            yield return null;
+        }
     }
 
     private IEnumerator FadeCanvasGroup(CanvasGroup cg, float from, float to, float duration)
@@ -207,53 +212,43 @@ public class CinematicPlayer : MonoBehaviour
         if (fader != null) yield return FadeCanvasGroup(fader, fader.alpha, 1f, 0.35f);
 
         if (!string.IsNullOrWhiteSpace(nextSceneName))
-            Portal.Travel(nextSceneName);   // usa spawn padrão "Default"
+            Portal.Travel(nextSceneName);
         else
             gameObject.SetActive(false);
     }
 
-    // API opcional
     public void PlayNow()
     {
         StopAllCoroutines();
         StartCoroutine(PlayRoutine());
     }
-    
+
     private void FitImageToRect(Image img, Sprite sprite)
     {
         if (img == null) return;
 
-        // set sprite
         img.sprite = sprite;
-        img.preserveAspect = true; // importante
-
-        // start with native size so temos dimensões reais do sprite
+        img.preserveAspect = true;
         img.SetNativeSize();
 
         RectTransform rt = img.rectTransform;
         RectTransform parentRt = rt.parent as RectTransform;
 
-        // se não tiver parent válido, usamos a própria rect
         if (parentRt == null) parentRt = rt;
 
-        // dimensões disponíveis para encaixar (em unidades de UI)
         float maxW = parentRt.rect.width;
         float maxH = parentRt.rect.height;
 
-        // dimensões do sprite já aplicadas ao rect da Image
         float w = rt.rect.width;
         float h = rt.rect.height;
 
         if (w <= 0f || h <= 0f || maxW <= 0f || maxH <= 0f)
             return;
 
-        // escala para "fit inside" mantendo proporção
         float scale = Mathf.Min(maxW / w, maxH / h, 1f);
 
-        // aplica novo tamanho mantendo o centro
         Vector2 newSize = new Vector2(w * scale, h * scale);
         rt.sizeDelta = newSize;
-        rt.anchoredPosition = Vector2.zero; // centraliza (ajuste se preferir)
+        rt.anchoredPosition = Vector2.zero;
     }
-
 }

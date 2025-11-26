@@ -79,6 +79,8 @@ public class PauseMenu : MonoBehaviour
         DialogueManager.Instance?.gameObject.SetActive(true);
         RtVoiceService.I?.StopSpeaking();
 
+        TipsManager.ResetTips();
+
         Portal.Travel(firstSceneName);
     }
 
@@ -97,6 +99,8 @@ public class PauseMenu : MonoBehaviour
 
         if (DialogueManager.Instance != null)
             Destroy(DialogueManager.Instance.gameObject);
+
+        TipsManager.ResetTips();
 
         Portal.Travel("MainMenu");
     }
