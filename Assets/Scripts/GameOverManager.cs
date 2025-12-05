@@ -7,21 +7,20 @@ public class GameOverManager : MonoBehaviour
     [Header("Referências UI")]
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private TMP_Text   resultText;
-    [SerializeField] private Button     restartButton;
     [SerializeField] private Button     quitButton;
 
     [Header("Cena inicial do jogo")]
-    [SerializeField] private string firstSceneName = "FrontSchool";
+    [SerializeField] private string firstSceneName = "FormScene";
 
     private bool isBound = false;
+    private bool isGameOver = false;  // <-- novo
 
     private void Start()
     {
         Bind();
         if (gameOverPanel != null) gameOverPanel.SetActive(false);
 
-        if (restartButton != null) restartButton.onClick.AddListener(OnRestart);
-        if (quitButton != null)    quitButton.onClick.AddListener(OnQuit);
+        if (quitButton != null) quitButton.onClick.AddListener(OnQuit);
     }
 
     private void OnEnable()  { Bind(); }
@@ -47,12 +46,20 @@ public class GameOverManager : MonoBehaviour
 
     private void HandleGoalReached()
     {
+        if (isGameOver) return;   // <-- garante que roda só uma vez
+        isGameOver = true;
+
+        // Pausa “global”
         Time.timeScale = 0f;
+
+        // DESLIGA O MOVIMENTO DO PLAYER (input por trás do painel)
+        var player = FindAnyObjectByType<PlayerMovement>(FindObjectsInactive.Include);
+        if (player != null)
+            player.enabled = false;
 
         if (SituationCounter.Instance != null && resultText != null)
         {
             var sc = SituationCounter.Instance;
-
             var finalResult = "";
 
             if (sc.Score >= 90 && sc.Score <= 100)
@@ -77,6 +84,7 @@ public class GameOverManager : MonoBehaviour
 
         if (GameDataSender.Instance != null)
         {
+            // importante: se o coroutine usar WaitForSeconds, troca para WaitForSecondsRealtime lá
             StartCoroutine(GameDataSender.Instance.SendAssessment());
         }
         else
@@ -84,16 +92,23 @@ public class GameOverManager : MonoBehaviour
             Debug.LogWarning("[GameOverManager] GameDataSender não encontrado na cena.");
         }
 
-        Time.timeScale = 0f;
+        // NÃO precisa setar timeScale de novo aqui, já está em 0
+        // Time.timeScale = 0f;
     }
 
     public void OnRestart()
     {
         Time.timeScale = 1f;
+        isGameOver = false;
 
         SituationCounter.Instance?.ResetAll();
         SessionProgress.ResetAll();
         AssessmentTracker.Instance?.ResetAll();
+
+        // reabilita o movimento do player se ele estiver na cena
+        var player = FindAnyObjectByType<PlayerMovement>(FindObjectsInactive.Include);
+        if (player != null)
+            player.enabled = true;
 
         DialogueManager.Instance?.gameObject.SetActive(true);
         RtVoiceService.I?.StopSpeaking();
@@ -106,6 +121,7 @@ public class GameOverManager : MonoBehaviour
     public void OnQuit()
     {
         Time.timeScale = 1f;
+        isGameOver = false;
 
         SituationCounter.Instance?.ResetAll();
         SessionProgress.ResetAll();

@@ -47,16 +47,9 @@ public class StudentFormManager : MonoBehaviour
 
         var partes = nome.Split(' ', System.StringSplitOptions.RemoveEmptyEntries);
 
-        // Pelo menos duas palavras
+        // Pelo menos dois nomes
         if (partes.Length < 2)
             return false;
-
-        // Cada palavra precisa ter 3+ letras
-        foreach (var parte in partes)
-        {
-            if (parte.Length < 3)
-                return false;
-        }
 
         return true;
     }

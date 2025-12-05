@@ -1068,31 +1068,24 @@ MonoBehaviour:
   slides:
   - image: {fileID: 21300000, guid: 07824779b86d088438fe3348d045b7e6, type: 3}
     caption: "O som do sinal ecoa pela escola. O primeiro dia de aula come\xE7a"
-    holdSeconds: 6
   - image: {fileID: 21300000, guid: d1fd50e67e833d8488a9b30ad4c71eb8, type: 3}
     caption: "Voc\xEA respira fundo e observa a nova escola. Tudo \xE9 diferente"
-    holdSeconds: 6
   - image: {fileID: 21300000, guid: 08a78affc4b48e042b939d405e236b70, type: 3}
     caption: "Salas novas, rostos desconhecidos, professores que ainda n\xE3o sabe
       o nome"
-    holdSeconds: 6
   - image: {fileID: 21300000, guid: f43d8e4f5d6452e4e9619a55c532cbe6, type: 3}
     caption: "No come\xE7o, tudo parece normal. Mas logo voc\xEA percebe que nem
       tudo est\xE1 certo"
-    holdSeconds: 6
   - image: {fileID: 21300000, guid: 08cdbf50b1fb4a04d8bac7935fccb77e, type: 3}
     caption: "Algumas brincadeiras passam dos limites, alguns empurr\xF5es n\xE3o
       parecem t\xE3o inocentes"
-    holdSeconds: 6
   - image: {fileID: 21300000, guid: 4279f1ed076f5204f83fd959a7600f86, type: 3}
     caption: "Aos poucos, voc\xEA entende que nesta escola as li\xE7\xF5es v\xE3o
       al\xE9m do que est\xE1 no caderno"
-    holdSeconds: 6
   - image: {fileID: -6301559131107111870, guid: 4b1453abf5ce5fb47bf36cb9e1a5b80b, type: 3}
     caption: "Sua miss\xE3o \xE9 ajudar a resolver os problemas que aparecem, como
       o bullying, a viol\xEAncia, o desrespeito e o uso de drogas, sempre escolhendo
       o que achar certo"
-    holdSeconds: 10
   fadeDuration: 5
   typewriterSpeed: 40
   autoPlayOnStart: 1
